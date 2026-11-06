@@ -27,6 +27,8 @@ h3 { margin:0; font-size:1.2rem; }
          padding:12px 20px; border-radius:12px; font:inherit; font-weight:700; }
 .boton.grande { width:100%; padding:16px; font-size:1.15rem; margin-top:8px; }
 .boton:disabled { opacity:.6; cursor:wait; }
+.boton.rojo { background:var(--rojo); }
+.buscador.baja { border-color:var(--rojo); }
 .pasos { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
 .paso { background:var(--tarjeta); border:1px solid var(--borde); border-radius:14px; padding:16px; }
 .paso .n { display:inline-grid; place-items:center; width:30px; height:30px; border-radius:50%;
@@ -115,6 +117,21 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </div>
 
   
+  <section class="buscador baja" id="baja" hidden>
+    <div id="baja-preguntar">
+      <h2>¿Querés dar de baja tu viaje?</h2>
+      <p>Si lo das de baja, dejamos de buscar precios para ese viaje y no te mandamos más mails.
+        Si después cambiás de idea, lo podés cargar de nuevo cuando quieras.</p>
+      <button type="button" class="boton grande rojo" id="baja-si">Sí, dar de baja mi viaje</button>
+      <p class="centro"><a href="./">No, dejarlo como está</a></p>
+    </div>
+    <div id="baja-listo" class="listo" hidden>
+      <div class="emoji">👋</div>
+      <h3>Listo, diste de baja tu viaje</h3>
+      <p>En unas horas deja de aparecer en la página y te llega un último mail confirmándolo.</p>
+    </div>
+  </section>
+
   <section class="buscador" id="sumar">
     <h2>Sumá tu viaje</h2>
     <p class="sub">Completá esto como si buscaras un vuelo. Tarda 2 minutos.</p>
@@ -211,6 +228,21 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   (function () {
     const ENVIO = "https://docs.google.com/forms/d/e/1FAIpQLSdFwOT9AW2EPzU9_yauluD4TgGjDThLZ9smQIUkgV6__ZzRXQ/formResponse";
     const C = {"nombre": "entry.1104161098", "mail": "entry.1118946929", "origen": "entry.1753143682", "destino": "entry.1063469825", "desde": "entry.991990980", "hasta": "entry.556212042", "dias": "entry.573026772", "escalas": "entry.1066561259", "precio": "entry.571419025", "equipaje": "entry.2031461130", "visa": "entry.273587639", "resumen": "entry.118961966"};
+    // Dar de baja: el link del mail trae ?baja=CODIGO
+    const codigo = new URLSearchParams(location.search).get('baja');
+    if (codigo && /^[0-9a-f]{8}\.[0-9a-f]{12}$/.test(codigo)) {
+      const caja = document.getElementById('baja');
+      caja.hidden = false;
+      setTimeout(() => caja.scrollIntoView({ behavior: 'smooth' }), 100);
+      document.getElementById('baja-si').addEventListener('click', async ev => {
+        ev.target.disabled = true; ev.target.textContent = 'Dando de baja…';
+        const datos = new FormData();
+        datos.append(C.nombre, '__BAJA__'); datos.append(C.mail, codigo);
+        try { await fetch(ENVIO, { method: 'POST', mode: 'no-cors', body: datos }); } catch (e) {}
+        document.getElementById('baja-preguntar').hidden = true;
+        document.getElementById('baja-listo').hidden = false;
+      });
+    }
     const f = document.getElementById('form-viaje');
     const err = document.getElementById('error');
     const hoy = new Date(); hoy.setDate(hoy.getDate() + 1);
@@ -284,7 +316,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </section>
 
   <h2>Preguntas frecuentes</h2>
-  <details><summary>¿Cuesta algo?</summary><p>No, es gratis. No tenés que crear ninguna cuenta ni instalar nada.</p></details><details><summary>¿Me compran el pasaje?</summary><p>No. Solo te avisamos por mail cuando aparece un buen precio. Si te gusta, lo comprás vos donde quieras (en la página de la aerolínea o una agencia).</p></details><details><summary>¿Cómo me llega el aviso?</summary><p>Por mail, con la aerolínea, las escalas, los horarios y un link para ver el vuelo en Google. Si no te llega, fijate en Spam o Promociones y marcalo como “No es spam”.</p></details><details><summary>¿Por qué todavía no aparecen precios de mi viaje?</summary><p>Puede ser por dos cosas: (1) Google muestra vuelos hasta unos 11 meses antes; si tu viaje es más lejos, esperamos y empezamos solos. (2) Revisamos de a una fecha por vez, varias veces por día, así que recorrer todas las fechas puede llevar algunos días.</p></details><details><summary>¿Qué incluye el precio?</summary><p>Es el precio total ida y vuelta, para 1 persona, en clase económica, con impuestos. Si elegiste valija de mano, ya está incluida. La valija grande a veces se paga aparte: antes de comprar, fijate en la página de la aerolínea.</p></details><details><summary>¿Qué es una escala?</summary><p>Cuando el avión para en otra ciudad y te tenés que cambiar de avión. Los vuelos con escalas suelen ser más baratos pero más largos.</p></details><details><summary>¿Por qué no me muestran vuelos que pasan por Estados Unidos?</summary><p>Con pasaporte argentino, Estados Unidos y Canadá piden visa incluso para hacer escala. Si no tenés visa, los sacamos para que no te encuentres con ese problema en el aeropuerto.</p></details><details><summary>¿Alguien ve mi mail?</summary><p>No. En esta página solo se ve el nombre que pusiste y tu viaje.</p></details><details><summary>¿Cómo cambio o borro mi viaje?</summary><p>Cargá el viaje de nuevo con los datos nuevos y avisale a Fabri para que borre el anterior.</p></details><details><summary>El precio de Google es distinto al de acá</summary><p>Los precios de los vuelos cambian todo el tiempo, a veces varias veces por día. Acá ves el último precio que encontramos y la hora en que lo vimos.</p></details>
+  <details><summary>¿Cuesta algo?</summary><p>No, es gratis. No tenés que crear ninguna cuenta ni instalar nada.</p></details><details><summary>¿Me compran el pasaje?</summary><p>No. Solo te avisamos por mail cuando aparece un buen precio. Si te gusta, lo comprás vos donde quieras (en la página de la aerolínea o una agencia).</p></details><details><summary>¿Cómo me llega el aviso?</summary><p>Por mail, con la aerolínea, las escalas, los horarios y un link para ver el vuelo en Google. Si no te llega, fijate en Spam o Promociones y marcalo como “No es spam”.</p></details><details><summary>¿Por qué todavía no aparecen precios de mi viaje?</summary><p>Puede ser por dos cosas: (1) Google muestra vuelos hasta unos 11 meses antes; si tu viaje es más lejos, esperamos y empezamos solos. (2) Revisamos de a una fecha por vez, varias veces por día, así que recorrer todas las fechas puede llevar algunos días.</p></details><details><summary>¿Qué incluye el precio?</summary><p>Es el precio total ida y vuelta, para 1 persona, en clase económica, con impuestos. Si elegiste valija de mano, ya está incluida. La valija grande a veces se paga aparte: antes de comprar, fijate en la página de la aerolínea.</p></details><details><summary>¿Qué es una escala?</summary><p>Cuando el avión para en otra ciudad y te tenés que cambiar de avión. Los vuelos con escalas suelen ser más baratos pero más largos.</p></details><details><summary>¿Por qué no me muestran vuelos que pasan por Estados Unidos?</summary><p>Con pasaporte argentino, Estados Unidos y Canadá piden visa incluso para hacer escala. Si no tenés visa, los sacamos para que no te encuentres con ese problema en el aeropuerto.</p></details><details><summary>¿Alguien ve mi mail?</summary><p>No. En esta página solo se ve el nombre que pusiste y tu viaje.</p></details><details><summary>¿Cómo borro o cambio mi viaje?</summary><p>Al final de cada mail que te mandamos hay un link que dice “Dalo de baja acá”. Tocalo y confirmá: dejamos de buscar y de escribirte. Si querés cambiar algo (fechas, precio, destino), dalo de baja y cargalo de nuevo con los datos nuevos.</p></details><details><summary>El precio de Google es distinto al de acá</summary><p>Los precios de los vuelos cambian todo el tiempo, a veces varias veces por día. Acá ves el último precio que encontramos y la hora en que lo vimos.</p></details>
 
   <footer>
     Precios en dólares, ida y vuelta, clase económica, 1 pasajero, impuestos incluidos, según Google Flights.
