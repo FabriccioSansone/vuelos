@@ -97,6 +97,10 @@ details { background:var(--tarjeta); border:1px solid var(--borde); border-radiu
 summary { cursor:pointer; font-weight:600; }
 details p { color:var(--suave); margin:8px 0 2px; }
 footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
+.meses { list-style:none; padding:0; margin:8px 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; }
+.meses li { background:var(--fondo); border-radius:10px; padding:8px 10px; display:flex; flex-direction:column; }
+.meses li span { font-weight:800; }
+.meses li.top { outline:2px solid var(--verde); }
 </style>
 </head>
 <body>
@@ -149,6 +153,17 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
         </label>
       </div>
 
+      <fieldset><legend>¿Cuándo querés viajar?</legend>
+        <div class="segmentado">
+          <label><input type="radio" name="modo" value="fechas" checked><span>Ya tengo fechas</span></label>
+          <label><input type="radio" name="modo" value="mes"><span>En un mes <small>(buscamos el mejor día)</small></span></label>
+          <label><input type="radio" name="modo" value="meses"><span>No sé cuándo <small>(buscamos el mes más barato)</small></span></label>
+        </div>
+      </fieldset>
+
+      <div id="con-fechas">
+      <label>¿Querés aprovechar un fin de semana largo? <small>(opcional)</small>
+        <select name="largo"><option value="">No, elijo las fechas yo</option><option value="0">Día de la Soberanía Nacional: 21/11 al 23/11/2026 (3 días)</option><option value="1">Navidad: 25/12 al 27/12/2026 (3 días)</option><option value="2">Año Nuevo: 01/01 al 03/01/2027 (3 días)</option><option value="3">Carnaval: 06/02 al 09/02/2027 (4 días)</option><option value="4">Viernes Santo: 26/03 al 28/03/2027 (3 días)</option><option value="5">Malvinas: 02/04 al 04/04/2027 (3 días)</option><option value="6">Día de la Bandera y Paso a la Inmortalidad de Güemes: 19/06 al 21/06/2027 (3 días)</option><option value="7">Día de la Independencia: 09/07 al 11/07/2027 (3 días)</option><option value="8">Paso a la Inmortalidad de San Martín: 14/08 al 16/08/2027 (3 días)</option><option value="9">Día de la Diversidad Cultural: 09/10 al 11/10/2027 (3 días)</option></select></label>
       <div class="fila">
         <label>¿Cuándo te vas? <small>(ida)</small>
           <input type="date" name="ida" required></label>
@@ -156,8 +171,18 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
           <input type="date" name="vuelta" required></label>
       </div>
       <p class="ayuda" id="duracion">Elegí las dos fechas.</p>
+      </div>
 
-      <fieldset><legend>¿Podés mover las fechas?</legend>
+      <div id="con-mes" hidden>
+        <div class="fila">
+          <label><span id="txt-mes">¿Qué mes?</span> <select name="mes_desde"></select></label>
+          <label id="lbl-mes-hasta" hidden>Hasta <select name="mes_hasta"></select></label>
+          <label>¿Cuántos días te vas? <input type="number" name="dias_mes" min="1" max="90" value="15" inputmode="numeric"></label>
+        </div>
+        <p class="ayuda" id="mes-ayuda"></p>
+      </div>
+
+      <fieldset id="flex-caja"><legend>¿Podés mover las fechas?</legend>
         <div class="segmentado">
           <label><input type="radio" name="flex" value="0"><span>No <small>(fechas exactas)</small></span></label>
           <label><input type="radio" name="flex" value="3" checked><span>Unos días <small>(3 antes o después)</small></span></label>
@@ -179,7 +204,10 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
           elegiste, pero en los mails te contamos si hay algo más barato con más escalas.</p>
       </fieldset>
 
-      <fieldset><legend>¿Qué equipaje llevás?</legend>
+      <label>¿Cuántos viajan? <small>(adultos)</small>
+        <select name="pasajeros"><option value="1">1 persona</option><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option><option value="5">5 personas</option><option value="6">6 personas</option></select></label>
+
+      <fieldset><legend>¿Qué equipaje llevás? <small id="equipaje-cada">(cada uno)</small></legend>
         <div class="opciones"><label class="opcion"><input type="radio" name="equipaje" value="Solo mochila">
           <span><b>🎒 Solo mochila</b><small>Un bolso o mochila chica que va debajo del asiento. Siempre está incluida.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija de mano" checked>
           <span><b>🎒🧳 Mochila + valija de mano</b><small>La valija chica (unos 8-10 kg) que va arriba del asiento.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija de mano + valija grande">
@@ -187,7 +215,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
           <span><b>🎒🧳 Mochila + valija grande</b><small>Sin valija de mano, pero con la valija grande en la bodega.</small></span></label></div>
       </fieldset>
 
-      <label>¿Cuánto querés pagar como máximo? <small>(dólares, ida y vuelta)</small>
+      <label>¿Cuánto querés pagar como máximo? <small>(dólares, ida y vuelta, por persona)</small>
         <div class="con-prefijo"><span>USD</span><input type="number" name="precio" min="50" step="10" required inputmode="numeric" placeholder="ej: 1200"></div></label>
       <p class="ayuda">Te avisamos cuando aparezca un vuelo a este precio o menos. Si no sabés, mirá el precio en
         Google Flights y poné un 15% menos.</p>
@@ -232,6 +260,9 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   (function () {
     const ENVIO = "https://docs.google.com/forms/d/e/1FAIpQLSdFwOT9AW2EPzU9_yauluD4TgGjDThLZ9smQIUkgV6__ZzRXQ/formResponse";
     const C = {"nombre": "entry.1104161098", "mail": "entry.1118946929", "origen": "entry.1753143682", "destino": "entry.1063469825", "desde": "entry.991990980", "hasta": "entry.556212042", "dias": "entry.573026772", "escalas": "entry.1066561259", "precio": "entry.571419025", "equipaje": "entry.2031461130", "visa": "entry.273587639", "resumen": "entry.118961966"};
+    const LARGOS = [{"inicio": "2026-11-21", "fin": "2026-11-23", "dias": 3, "nombre": "Día de la Soberanía Nacional"}, {"inicio": "2026-12-25", "fin": "2026-12-27", "dias": 3, "nombre": "Navidad"}, {"inicio": "2027-01-01", "fin": "2027-01-03", "dias": 3, "nombre": "Año Nuevo"}, {"inicio": "2027-02-06", "fin": "2027-02-09", "dias": 4, "nombre": "Carnaval"}, {"inicio": "2027-03-26", "fin": "2027-03-28", "dias": 3, "nombre": "Viernes Santo"}, {"inicio": "2027-04-02", "fin": "2027-04-04", "dias": 3, "nombre": "Malvinas"}, {"inicio": "2027-06-19", "fin": "2027-06-21", "dias": 3, "nombre": "Día de la Bandera y Paso a la Inmortalidad de Güemes"}, {"inicio": "2027-07-09", "fin": "2027-07-11", "dias": 3, "nombre": "Día de la Independencia"}, {"inicio": "2027-08-14", "fin": "2027-08-16", "dias": 3, "nombre": "Paso a la Inmortalidad de San Martín"}, {"inicio": "2027-10-09", "fin": "2027-10-11", "dias": 3, "nombre": "Día de la Diversidad Cultural"}];
+    const FERIADOS = [["2026-11-23", "Día de la Soberanía Nacional"], ["2026-12-08", "Inmaculada Concepción"], ["2026-12-25", "Navidad"], ["2027-01-01", "Año Nuevo"], ["2027-02-08", "Carnaval"], ["2027-02-09", "Carnaval"], ["2027-03-24", "Día de la Memoria"], ["2027-03-26", "Viernes Santo"], ["2027-04-02", "Malvinas"], ["2027-05-01", "Día del Trabajador"], ["2027-05-25", "Revolución de Mayo"], ["2027-06-20", "Día de la Bandera"], ["2027-06-21", "Paso a la Inmortalidad de Güemes"], ["2027-07-09", "Día de la Independencia"], ["2027-08-16", "Paso a la Inmortalidad de San Martín"], ["2027-10-11", "Día de la Diversidad Cultural"], ["2027-11-20", "Día de la Soberanía Nacional"], ["2027-12-08", "Inmaculada Concepción"]];
+    const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
     // Dar de baja: el link del mail trae ?baja=CODIGO
     const codigo = new URLSearchParams(location.search).get('baja');
     if (codigo && /^[0-9a-f]{8}\.[0-9a-f]{12}$/.test(codigo)) {
@@ -256,14 +287,62 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     const ddmm = s => s.slice(8, 10) + '/' + s.slice(5, 7);
     const dias = () => (f.ida.value && f.vuelta.value) ? Math.round((fecha(f.vuelta.value) - fecha(f.ida.value)) / 864e5) : 0;
     f.ida.min = f.vuelta.min = iso(hoy);
+    const feriadosEntre = (a, b) => [...new Set(FERIADOS.filter(x => x[0] >= a && x[0] <= b).map(x => x[1]))];
     function mostrarDuracion() {
       const d = dias(), txt = document.getElementById('duracion');
       if (!f.ida.value || !f.vuelta.value) { txt.textContent = 'Elegí las dos fechas.'; return; }
       if (d < 1) { txt.textContent = '⚠️ La vuelta tiene que ser después de la ida.'; return; }
-      const fl = +f.flex.value;
+      const fl = +f.flex.value, fer = feriadosEntre(f.ida.value, f.vuelta.value);
       txt.innerHTML = '✈️ Son <b>' + d + ' días</b> de viaje.' + (fl ? ' Vamos a buscar salidas entre el <b>' +
-        ddmm(sumar(f.ida.value, -fl)) + '</b> y el <b>' + ddmm(sumar(f.ida.value, fl)) + '</b>, siempre de ' + d + ' días.' : '');
+        ddmm(sumar(f.ida.value, -fl)) + '</b> y el <b>' + ddmm(sumar(f.ida.value, fl)) + '</b>, siempre de ' + d + ' días.' : '') +
+        (fer.length ? '<br>🇦🇷 Tu viaje incluye feriado: <b>' + fer.join(', ') + '</b>.' : '');
     }
+    // Fin de semana largo: completa las fechas solo
+    f.largo.addEventListener('change', () => {
+      const l = LARGOS[f.largo.value]; if (!l) return;
+      f.ida.value = l.inicio; f.vuelta.value = l.fin; f.vuelta.min = sumar(l.inicio, 1);
+      f.querySelector('input[name=flex][value="0"]').checked = true;
+      mostrarDuracion();
+    });
+    // Meses: los próximos 12
+    const mesesOpc = [];
+    for (let i = 0; i < 12; i++) {
+      const d = new Date(hoy.getFullYear(), hoy.getMonth() + i, 1);
+      const valor = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      mesesOpc.push('<option value="' + valor + '">' + MESES[d.getMonth()][0].toUpperCase() + MESES[d.getMonth()].slice(1) + ' ' + d.getFullYear() + '</option>');
+    }
+    f.mes_desde.innerHTML = f.mes_hasta.innerHTML = mesesOpc.join('');
+    f.mes_hasta.selectedIndex = Math.min(3, mesesOpc.length - 1);
+    const finDeMes = m => { const [a, b] = m.split('-').map(Number); return iso(new Date(Date.UTC(a, b, 0, 12))); };
+    const modo = () => f.modo.value;
+    function rangoMes() {
+      const desde = [f.mes_desde.value + '-01', iso(hoy)].sort()[1];
+      const hasta = finDeMes(modo() === 'meses' ? f.mes_hasta.value : f.mes_desde.value);
+      return [desde, hasta];
+    }
+    function mostrarModo() {
+      const m = modo();
+      document.getElementById('con-fechas').hidden = m !== 'fechas';
+      document.getElementById('flex-caja').hidden = m !== 'fechas';
+      document.getElementById('con-mes').hidden = m === 'fechas';
+      document.getElementById('lbl-mes-hasta').hidden = m !== 'meses';
+      document.getElementById('txt-mes').textContent = m === 'meses' ? 'Desde' : '¿Qué mes?';
+      if (m === 'fechas') { mostrarDuracion(); return; }
+      const [a, b] = rangoMes(), txt = document.getElementById('mes-ayuda');
+      if (b < a) { txt.textContent = '⚠️ El último mes tiene que ser después del primero.'; return; }
+      const fer = FERIADOS.filter(x => x[0] >= a && x[0] <= b);
+      txt.innerHTML = (m === 'mes'
+          ? '🔎 Vamos a probar todos los días de salida de ese mes y te avisamos cuál conviene.'
+          : '🔎 Vamos a probar salidas en todos esos meses y te contamos cuál es el <b>mes más barato</b>. ' +
+            'Mientras más meses, más tarda en recorrerlos todos.') +
+        (fer.length ? '<br>🇦🇷 Feriados: ' + fer.map(x => x[1] + ' (' + ddmm(x[0]) + ')').join(', ') + '.' : '');
+    }
+    f.querySelectorAll('input[name=modo]').forEach(r => r.addEventListener('change', mostrarModo));
+    [f.mes_desde, f.mes_hasta].forEach(s => s.addEventListener('change', mostrarModo));
+    f.pasajeros.addEventListener('change', () => {
+      document.getElementById('equipaje-cada').hidden = f.pasajeros.value === '1';
+    });
+    document.getElementById('equipaje-cada').hidden = true;
     f.ida.addEventListener('change', () => {
       f.vuelta.min = sumar(f.ida.value, 1);
       if (!f.vuelta.value || f.vuelta.value <= f.ida.value) f.vuelta.value = sumar(f.ida.value, 15);
@@ -285,10 +364,18 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       if (!lugar('origen')) return mal('Elegí desde dónde salís.', f.origen);
       if (!lugar('destino')) return mal('Elegí a dónde querés ir.', f.destino);
       if (lugar('origen') === lugar('destino')) return mal('El origen y el destino son iguales.', f.destino);
-      if (!f.ida.value) return mal('Elegí cuándo te vas.', f.ida);
-      if (!f.vuelta.value) return mal('Elegí cuándo volvés.', f.vuelta);
-      if (dias() < 1) return mal('La vuelta tiene que ser después de la ida.', f.vuelta);
-      if (dias() > 330) return mal('El viaje es muy largo: como máximo 330 días.', f.vuelta);
+      if (modo() === 'fechas') {
+        if (!f.ida.value) return mal('Elegí cuándo te vas.', f.ida);
+        if (!f.vuelta.value) return mal('Elegí cuándo volvés.', f.vuelta);
+        if (dias() < 1) return mal('La vuelta tiene que ser después de la ida.', f.vuelta);
+        if (dias() > 330) return mal('El viaje es muy largo: como máximo 330 días.', f.vuelta);
+      } else {
+        const [a, b] = rangoMes();
+        if (b < a) return mal('El último mes tiene que ser después del primero.', f.mes_hasta);
+        if (modo() === 'meses' && (fecha(b) - fecha(a)) / 864e5 > 186) return mal('Elegí como máximo 6 meses.', f.mes_hasta);
+        const d = +f.dias_mes.value;
+        if (!(d >= 1 && d <= 90)) return mal('Poné cuántos días te vas (entre 1 y 90).', f.dias_mes);
+      }
       const p = +f.precio.value; if (!(p >= 50)) return mal('Poné cuánto querés pagar, en dólares (ej: 1200).', f.precio);
       if (!f.nombre.value.trim()) return mal('Poné tu nombre.', f.nombre);
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.mail.value.trim())) return mal('Revisá tu mail, parece que está mal escrito.', f.mail);
@@ -301,11 +388,13 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       const valores = {
         nombre: f.nombre.value.trim(), mail: f.mail.value.trim(),
         origen: lugar('origen'), destino: lugar('destino'),
-        // Para el bot: rango de salida (ida ± flexibilidad, nunca antes de mañana) y duración fija
-        desde: [sumar(f.ida.value, -f.flex.value), iso(hoy)].sort()[1],
-        hasta: sumar(f.ida.value, +f.flex.value), dias: String(dias()),
+        // Para el bot: rango de salida (ida ± flexibilidad, o el/los meses; nunca antes de mañana) y duración fija
+        desde: modo() === 'fechas' ? [sumar(f.ida.value, -f.flex.value), iso(hoy)].sort()[1] : rangoMes()[0],
+        hasta: modo() === 'fechas' ? sumar(f.ida.value, +f.flex.value) : rangoMes()[1],
+        dias: modo() === 'fechas' ? String(dias()) : String(+f.dias_mes.value),
         escalas: f.escalas.value + (f.escalas.value !== '2' && !f.escalas_fijas.checked ? ' (flexible)' : ''),
-        precio: f.precio.value, equipaje: f.equipaje.value,
+        precio: f.precio.value,
+        equipaje: f.equipaje.value + (f.pasajeros.value !== '1' ? ' | ' + f.pasajeros.value + ' pasajeros' : ''),
         visa: f.visa.value, resumen: f.resumen.value
       };
       for (const k in valores) if (C[k]) datos.append(C[k], valores[k]);
@@ -324,7 +413,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </script>
 
   <h2>Los viajes que estamos vigilando</h2>
-  <p class="sub">Último precio encontrado: 06/11/2026 a las 10:59 (hora de Argentina).</p>
+  <p class="sub">Último precio encontrado: 06/11/2026 a las 11:21 (hora de Argentina).</p>
   <section class="tarjeta">
     <header><h3>Viaje de Fabri</h3><span class="ruta">Buenos Aires → Tokio</span></header>
     <p class="detalle">Sale entre el 01/02/2028 y el 29/02/2028 · se queda 28 días · hasta 2 escalas · Mochila + valija de mano + valija grande</p>
@@ -342,13 +431,14 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     </div>
     
     
+    
     <div class="tabla">
       <table>
         <thead><tr><th>Ida → vuelta</th><th>Lo más barato</th><th>Aerolínea</th>
           <th></th></tr></thead>
         <tbody>
         <tr>
-          <td class="num">31/12 → 09/01</td>
+          <td class="num">31/12 → 09/01<br><small>🇦🇷 Año Nuevo</small></td>
           <td class="num"><b>USD 618</b></td>
           <td>Gol<br><small>directo a la ida</small></td>
           
@@ -360,12 +450,42 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     <p class="progreso">Fechas revisadas: 1 de 7
       · el más barato que vimos: USD 618</p>
   </section>
+  <section class="tarjeta">
+    <header><h3>Viaje de Gabriela</h3><span class="ruta">Buenos Aires → Roma</span></header>
+    <p class="detalle">Sale entre el 28/04/2027 y el 04/05/2027 · se queda 30 días · solo directos · Mochila + valija de mano</p>
+    <div class="destacado">
+      <div><div class="precio">USD 1556</div><small>ida y vuelta</small></div>
+      <div>Quiere pagar USD 800 o menos: todavía no apareció, seguimos buscando.<br>
+        Lo más barato ahora: ida el 28/04, vuelta el 28/05,
+        con ITA (directo a la ida).</div>
+    </div>
+    
+    
+    
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Ida → vuelta</th><th>Lo más barato</th><th>Aerolínea</th>
+          <th></th></tr></thead>
+        <tbody>
+        <tr>
+          <td class="num">28/04 → 28/05<br><small>🇦🇷 Día del Trabajador, Revolución de Mayo</small></td>
+          <td class="num"><b>USD 1556</b></td>
+          <td>ITA<br><small>directo a la ida</small></td>
+          
+          
+          <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+FCO+on+2027-04-28+through+2027-05-28+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
+        </tr></tbody>
+      </table>
+    </div>
+    <p class="progreso">Fechas revisadas: 1 de 7
+      · el más barato que vimos: USD 1556</p>
+  </section>
 
   <h2>Preguntas frecuentes</h2>
-  <details><summary>¿Cuesta algo?</summary><p>No, es gratis. No tenés que crear ninguna cuenta ni instalar nada.</p></details><details><summary>¿Me compran el pasaje?</summary><p>No. Solo te avisamos por mail cuando aparece un buen precio. Si te gusta, lo comprás vos donde quieras (en la página de la aerolínea o una agencia).</p></details><details><summary>¿Cómo me llega el aviso?</summary><p>Por mail, con la aerolínea, las escalas, los horarios y un link para ver el vuelo en Google. Si no te llega, fijate en Spam o Promociones y marcalo como “No es spam”.</p></details><details><summary>¿Por qué todavía no aparecen precios de mi viaje?</summary><p>Puede ser por dos cosas: (1) Google muestra vuelos hasta unos 11 meses antes; si tu viaje es más lejos, esperamos y empezamos solos. (2) Revisamos de a una fecha por vez, varias veces por día, así que recorrer todas las fechas puede llevar algunos días.</p></details><details><summary>¿Qué incluye el precio?</summary><p>Es el precio total ida y vuelta, para 1 persona, en clase económica, con impuestos. Si elegiste valija de mano, ya está incluida. La valija grande a veces se paga aparte: antes de comprar, fijate en la página de la aerolínea.</p></details><details><summary>¿Qué es una escala?</summary><p>Cuando el avión para en otra ciudad y te tenés que cambiar de avión. Los vuelos con escalas suelen ser más baratos pero más largos.</p></details><details><summary>¿Por qué no me muestran vuelos que pasan por Estados Unidos?</summary><p>Con pasaporte argentino, Estados Unidos y Canadá piden visa incluso para hacer escala. Si no tenés visa, los sacamos para que no te encuentres con ese problema en el aeropuerto.</p></details><details><summary>¿Alguien ve mi mail?</summary><p>No. En esta página solo se ve el nombre que pusiste y tu viaje.</p></details><details><summary>¿Cómo borro o cambio mi viaje?</summary><p>Al final de cada mail que te mandamos hay un link que dice “Dalo de baja acá”. Tocalo y confirmá: dejamos de buscar y de escribirte. Si querés cambiar algo (fechas, precio, destino), dalo de baja y cargalo de nuevo con los datos nuevos.</p></details><details><summary>El precio de Google es distinto al de acá</summary><p>Los precios de los vuelos cambian todo el tiempo, a veces varias veces por día. Acá ves el último precio que encontramos y la hora en que lo vimos.</p></details>
+  <details><summary>¿Cuesta algo?</summary><p>No, es gratis. No tenés que crear ninguna cuenta ni instalar nada.</p></details><details><summary>¿Me compran el pasaje?</summary><p>No. Solo te avisamos por mail cuando aparece un buen precio. Si te gusta, lo comprás vos donde quieras (en la página de la aerolínea o una agencia).</p></details><details><summary>¿Cómo me llega el aviso?</summary><p>Por mail, con la aerolínea, las escalas, los horarios y un link para ver el vuelo en Google. Si no te llega, fijate en Spam o Promociones y marcalo como “No es spam”.</p></details><details><summary>¿Por qué todavía no aparecen precios de mi viaje?</summary><p>Puede ser por dos cosas: (1) Google muestra vuelos hasta unos 11 meses antes; si tu viaje es más lejos, esperamos y empezamos solos. (2) Revisamos de a una fecha por vez, varias veces por día, así que recorrer todas las fechas puede llevar algunos días.</p></details><details><summary>¿Puedo buscar por mes o por feriado?</summary><p>Sí. En “¿Cuándo querés viajar?” elegí “En un mes” y probamos todos los días de salida de ese mes, o “No sé cuándo” y te contamos cuál es el mes más barato. Si tenés fechas, podés elegir un fin de semana largo de la lista y se completan solas. Los feriados se calculan con la ley; los “puentes” que agrega el gobierno cada año no aparecen.</p></details><details><summary>¿Qué incluye el precio?</summary><p>Es el precio ida y vuelta por persona (si viajan varios, también te decimos el total), en clase económica, con impuestos. Si elegiste valija de mano, ya está incluida. La valija grande a veces se paga aparte: antes de comprar, fijate en la página de la aerolínea.</p></details><details><summary>¿Qué es una escala?</summary><p>Cuando el avión para en otra ciudad y te tenés que cambiar de avión. Los vuelos con escalas suelen ser más baratos pero más largos.</p></details><details><summary>¿Por qué no me muestran vuelos que pasan por Estados Unidos?</summary><p>Con pasaporte argentino, Estados Unidos y Canadá piden visa incluso para hacer escala. Si no tenés visa, los sacamos para que no te encuentres con ese problema en el aeropuerto.</p></details><details><summary>¿Alguien ve mi mail?</summary><p>No. En esta página solo se ve el nombre que pusiste y tu viaje.</p></details><details><summary>¿Cómo borro o cambio mi viaje?</summary><p>Al final de cada mail que te mandamos hay un link que dice “Dalo de baja acá”. Tocalo y confirmá: dejamos de buscar y de escribirte. Si querés cambiar algo (fechas, precio, destino), dalo de baja y cargalo de nuevo con los datos nuevos.</p></details><details><summary>El precio de Google es distinto al de acá</summary><p>Los precios de los vuelos cambian todo el tiempo, a veces varias veces por día. Acá ves el último precio que encontramos y la hora en que lo vimos.</p></details>
 
   <footer>
-    Precios en dólares, ida y vuelta, clase económica, 1 pasajero, impuestos incluidos, según Google Flights.
+    Precios en dólares, ida y vuelta, por persona, clase económica, impuestos incluidos, según Google Flights.
     Pueden cambiar en cualquier momento: confirmá siempre en la página de la aerolínea antes de comprar.
     <br>El bot revisó por última vez el 06/11/2026.
   </footer>
