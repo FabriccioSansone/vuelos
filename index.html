@@ -117,8 +117,145 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   
   <section class="buscador" id="sumar">
     <h2>Sumá tu viaje</h2>
-    <p class="espera">🛠️ Muy pronto vas a poder cargar tu viaje acá mismo.</p>
+    <p class="sub">Completá esto como si buscaras un vuelo. Tarda 2 minutos.</p>
+    <form id="form-viaje" novalidate>
+      <div class="fila">
+        <label>¿Desde dónde salís?
+          <select name="origen" required><optgroup label="Argentina"><option value="Buenos Aires - Ezeiza y Aeroparque (EZE,AEP)" selected>Buenos Aires - Ezeiza y Aeroparque</option><option value="Buenos Aires - solo Ezeiza (EZE)">Buenos Aires - solo Ezeiza</option><option value="Buenos Aires - solo Aeroparque (AEP)">Buenos Aires - solo Aeroparque</option><option value="Córdoba (COR)">Córdoba</option><option value="Rosario (ROS)">Rosario</option><option value="Mendoza (MDZ)">Mendoza</option><option value="Bariloche (BRC)">Bariloche</option><option value="Salta (SLA)">Salta</option><option value="Tucumán (TUC)">Tucumán</option><option value="Neuquén (NQN)">Neuquén</option><option value="Mar del Plata (MDQ)">Mar del Plata</option><option value="Iguazú (IGR)">Iguazú</option><option value="Ushuaia (USH)">Ushuaia</option><option value="El Calafate (FTE)">El Calafate</option></optgroup><optgroup label="Sudamérica"><option value="Río de Janeiro (GIG)">Río de Janeiro</option><option value="San Pablo (GRU)">San Pablo</option><option value="Florianópolis (FLN)">Florianópolis</option><option value="Salvador de Bahía (SSA)">Salvador de Bahía</option><option value="Montevideo (MVD)">Montevideo</option><option value="Punta del Este (PDP)">Punta del Este</option><option value="Santiago de Chile (SCL)">Santiago de Chile</option><option value="Lima (LIM)">Lima</option><option value="Cusco (CUZ)">Cusco</option><option value="Bogotá (BOG)">Bogotá</option><option value="Medellín (MDE)">Medellín</option><option value="Cartagena (CTG)">Cartagena</option><option value="Asunción (ASU)">Asunción</option><option value="Quito (UIO)">Quito</option><option value="La Paz (LPB)">La Paz</option></optgroup><optgroup label="Caribe y Centroamérica"><option value="Punta Cana (PUJ)">Punta Cana</option><option value="Cancún (CUN)">Cancún</option><option value="Aruba (AUA)">Aruba</option><option value="La Habana (HAV)">La Habana</option><option value="Ciudad de Panamá (PTY)">Ciudad de Panamá</option><option value="San José (Costa Rica) (SJO)">San José (Costa Rica)</option><option value="Ciudad de México (MEX)">Ciudad de México</option></optgroup><optgroup label="Estados Unidos y Canadá"><option value="Miami (MIA)">Miami</option><option value="Orlando (MCO)">Orlando</option><option value="Nueva York (JFK,EWR)">Nueva York</option><option value="Los Ángeles (LAX)">Los Ángeles</option><option value="Las Vegas (LAS)">Las Vegas</option><option value="San Francisco (SFO)">San Francisco</option><option value="Toronto (YYZ)">Toronto</option><option value="Vancouver (YVR)">Vancouver</option></optgroup><optgroup label="Europa"><option value="Madrid (MAD)">Madrid</option><option value="Barcelona (BCN)">Barcelona</option><option value="Roma (FCO)">Roma</option><option value="Milán (MXP)">Milán</option><option value="Venecia (VCE)">Venecia</option><option value="París (CDG,ORY)">París</option><option value="Londres (LHR,LGW)">Londres</option><option value="Lisboa (LIS)">Lisboa</option><option value="Oporto (OPO)">Oporto</option><option value="Ámsterdam (AMS)">Ámsterdam</option><option value="Berlín (BER)">Berlín</option><option value="Fráncfort (FRA)">Fráncfort</option><option value="Múnich (MUC)">Múnich</option><option value="Zúrich (ZRH)">Zúrich</option><option value="Viena (VIE)">Viena</option><option value="Praga (PRG)">Praga</option><option value="Atenas (ATH)">Atenas</option><option value="Dublín (DUB)">Dublín</option><option value="Estambul (IST)">Estambul</option></optgroup><optgroup label="Asia, Medio Oriente y Oceanía"><option value="Tokio (NRT,HND)">Tokio</option><option value="Osaka (KIX)">Osaka</option><option value="Seúl (ICN)">Seúl</option><option value="Pekín (PEK)">Pekín</option><option value="Shanghái (PVG)">Shanghái</option><option value="Hong Kong (HKG)">Hong Kong</option><option value="Bangkok (BKK)">Bangkok</option><option value="Singapur (SIN)">Singapur</option><option value="Bali (DPS)">Bali</option><option value="Dubái (DXB)">Dubái</option><option value="Doha (DOH)">Doha</option><option value="Nueva Delhi (DEL)">Nueva Delhi</option><option value="Sídney (SYD)">Sídney</option><option value="Auckland (AKL)">Auckland</option></optgroup><option value="otro">Otro lugar (lo escribo yo)…</option></select>
+          <input name="origen_otro" class="otro" placeholder="Ciudad (y código si lo sabés, ej: Lisboa LIS)" hidden>
+        </label>
+        <label>¿A dónde querés ir?
+          <select name="destino" required><option value="" disabled selected>Elegí una ciudad…</option><optgroup label="Argentina"><option value="Buenos Aires - Ezeiza y Aeroparque (EZE,AEP)">Buenos Aires - Ezeiza y Aeroparque</option><option value="Buenos Aires - solo Ezeiza (EZE)">Buenos Aires - solo Ezeiza</option><option value="Buenos Aires - solo Aeroparque (AEP)">Buenos Aires - solo Aeroparque</option><option value="Córdoba (COR)">Córdoba</option><option value="Rosario (ROS)">Rosario</option><option value="Mendoza (MDZ)">Mendoza</option><option value="Bariloche (BRC)">Bariloche</option><option value="Salta (SLA)">Salta</option><option value="Tucumán (TUC)">Tucumán</option><option value="Neuquén (NQN)">Neuquén</option><option value="Mar del Plata (MDQ)">Mar del Plata</option><option value="Iguazú (IGR)">Iguazú</option><option value="Ushuaia (USH)">Ushuaia</option><option value="El Calafate (FTE)">El Calafate</option></optgroup><optgroup label="Sudamérica"><option value="Río de Janeiro (GIG)">Río de Janeiro</option><option value="San Pablo (GRU)">San Pablo</option><option value="Florianópolis (FLN)">Florianópolis</option><option value="Salvador de Bahía (SSA)">Salvador de Bahía</option><option value="Montevideo (MVD)">Montevideo</option><option value="Punta del Este (PDP)">Punta del Este</option><option value="Santiago de Chile (SCL)">Santiago de Chile</option><option value="Lima (LIM)">Lima</option><option value="Cusco (CUZ)">Cusco</option><option value="Bogotá (BOG)">Bogotá</option><option value="Medellín (MDE)">Medellín</option><option value="Cartagena (CTG)">Cartagena</option><option value="Asunción (ASU)">Asunción</option><option value="Quito (UIO)">Quito</option><option value="La Paz (LPB)">La Paz</option></optgroup><optgroup label="Caribe y Centroamérica"><option value="Punta Cana (PUJ)">Punta Cana</option><option value="Cancún (CUN)">Cancún</option><option value="Aruba (AUA)">Aruba</option><option value="La Habana (HAV)">La Habana</option><option value="Ciudad de Panamá (PTY)">Ciudad de Panamá</option><option value="San José (Costa Rica) (SJO)">San José (Costa Rica)</option><option value="Ciudad de México (MEX)">Ciudad de México</option></optgroup><optgroup label="Estados Unidos y Canadá"><option value="Miami (MIA)">Miami</option><option value="Orlando (MCO)">Orlando</option><option value="Nueva York (JFK,EWR)">Nueva York</option><option value="Los Ángeles (LAX)">Los Ángeles</option><option value="Las Vegas (LAS)">Las Vegas</option><option value="San Francisco (SFO)">San Francisco</option><option value="Toronto (YYZ)">Toronto</option><option value="Vancouver (YVR)">Vancouver</option></optgroup><optgroup label="Europa"><option value="Madrid (MAD)">Madrid</option><option value="Barcelona (BCN)">Barcelona</option><option value="Roma (FCO)">Roma</option><option value="Milán (MXP)">Milán</option><option value="Venecia (VCE)">Venecia</option><option value="París (CDG,ORY)">París</option><option value="Londres (LHR,LGW)">Londres</option><option value="Lisboa (LIS)">Lisboa</option><option value="Oporto (OPO)">Oporto</option><option value="Ámsterdam (AMS)">Ámsterdam</option><option value="Berlín (BER)">Berlín</option><option value="Fráncfort (FRA)">Fráncfort</option><option value="Múnich (MUC)">Múnich</option><option value="Zúrich (ZRH)">Zúrich</option><option value="Viena (VIE)">Viena</option><option value="Praga (PRG)">Praga</option><option value="Atenas (ATH)">Atenas</option><option value="Dublín (DUB)">Dublín</option><option value="Estambul (IST)">Estambul</option></optgroup><optgroup label="Asia, Medio Oriente y Oceanía"><option value="Tokio (NRT,HND)">Tokio</option><option value="Osaka (KIX)">Osaka</option><option value="Seúl (ICN)">Seúl</option><option value="Pekín (PEK)">Pekín</option><option value="Shanghái (PVG)">Shanghái</option><option value="Hong Kong (HKG)">Hong Kong</option><option value="Bangkok (BKK)">Bangkok</option><option value="Singapur (SIN)">Singapur</option><option value="Bali (DPS)">Bali</option><option value="Dubái (DXB)">Dubái</option><option value="Doha (DOH)">Doha</option><option value="Nueva Delhi (DEL)">Nueva Delhi</option><option value="Sídney (SYD)">Sídney</option><option value="Auckland (AKL)">Auckland</option></optgroup><option value="otro">Otro lugar (lo escribo yo)…</option></select>
+          <input name="destino_otro" class="otro" placeholder="Ciudad (y código si lo sabés, ej: Lisboa LIS)" hidden>
+        </label>
+      </div>
+
+      <div class="fila">
+        <label>Podría salir desde el
+          <input type="date" name="desde" required></label>
+        <label>…hasta el
+          <input type="date" name="hasta" required></label>
+      </div>
+      <p class="ayuda">Mientras más corto sea el rango (1 o 2 semanas), más seguido revisamos cada fecha.</p>
+
+      <label>¿Cuántos días te vas?
+        <input type="number" name="dias" min="1" max="330" value="15" required inputmode="numeric"></label>
+      <div class="chips" data-para="dias">
+        <button type="button" data-valor="7">1 semana</button><button type="button" data-valor="10">10 días</button>
+        <button type="button" data-valor="15">15 días</button><button type="button" data-valor="21">3 semanas</button>
+        <button type="button" data-valor="30">1 mes</button>
+      </div>
+
+      <fieldset><legend>Escalas <small>(cuando el avión para en otra ciudad y te cambiás de avión)</small></legend>
+        <div class="segmentado">
+          <label><input type="radio" name="escalas" value="0"><span>Solo directo</span></label>
+          <label><input type="radio" name="escalas" value="1"><span>Hasta 1 escala</span></label>
+          <label><input type="radio" name="escalas" value="2" checked><span>Hasta 2 <small>(más barato)</small></span></label>
+        </div>
+      </fieldset>
+
+      <fieldset><legend>¿Qué equipaje llevás?</legend>
+        <div class="opciones"><label class="opcion"><input type="radio" name="equipaje" value="Solo mochila">
+          <span><b>🎒 Solo mochila</b><small>Un bolso o mochila chica que va debajo del asiento. Siempre está incluida.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija de mano" checked>
+          <span><b>🎒🧳 Mochila + valija de mano</b><small>La valija chica (unos 8-10 kg) que va arriba del asiento.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija de mano + valija grande">
+          <span><b>🎒🧳🧳 Mochila + valija de mano + valija grande</b><small>La valija grande (unos 23 kg) va en la bodega del avión.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija grande">
+          <span><b>🎒🧳 Mochila + valija grande</b><small>Sin valija de mano, pero con la valija grande en la bodega.</small></span></label></div>
+      </fieldset>
+
+      <label>¿Cuánto querés pagar como máximo? <small>(dólares, ida y vuelta)</small>
+        <div class="con-prefijo"><span>USD</span><input type="number" name="precio" min="50" step="10" required inputmode="numeric" placeholder="ej: 1200"></div></label>
+      <p class="ayuda">Te avisamos cuando aparezca un vuelo a este precio o menos. Si no sabés, mirá el precio en
+        Google Flights y poné un 15% menos.</p>
+
+      <fieldset><legend>¿Tenés visa de Estados Unidos o Canadá?</legend>
+        <div class="segmentado">
+          <label><input type="radio" name="visa" value="Sí" checked><span>No tengo <small>(evitar esos vuelos)</small></span></label>
+          <label><input type="radio" name="visa" value="No"><span>Sí tengo <small>(mostrame todo)</small></span></label>
+        </div>
+        <p class="ayuda">Con pasaporte argentino piden visa hasta para hacer escala ahí.</p>
+      </fieldset>
+
+      <div class="fila">
+        <label>Tu nombre <small>(se ve en esta página)</small>
+          <input name="nombre" maxlength="40" required autocomplete="given-name" placeholder="ej: Juli"></label>
+        <label>Tu mail <small>(no se muestra nunca)</small>
+          <input type="email" name="mail" required autocomplete="email" placeholder="nombre@gmail.com"></label>
+      </div>
+      <label class="check"><input type="checkbox" name="resumen" checked> Mandame también un resumen por mail todos los días</label>
+
+      <p class="error" id="error" hidden></p>
+      <button type="submit" class="boton grande">Avisame cuando baje ✈️</button>
+      <p class="ayuda centro">Es gratis, no tenés que crear ninguna cuenta y no compramos nada por vos: solo te avisamos.</p>
+    </form>
+    <div id="listo" class="listo" hidden>
+      <div class="emoji">✅</div>
+      <h3>¡Listo! Recibimos tu viaje</h3>
+      <p>Fabri lo va a activar pronto (puede tardar un día). Cuando esté activo te llega un mail de
+        bienvenida. Fijate en <b>Spam</b> o <b>Promociones</b> si no lo ves.</p>
+      <button type="button" class="boton" onclick="location.reload()">Cargar otro viaje</button>
+    </div>
   </section>
+  <script>
+  (function () {
+    const ENVIO = "https://docs.google.com/forms/d/e/1FAIpQLSdFwOT9AW2EPzU9_yauluD4TgGjDThLZ9smQIUkgV6__ZzRXQ/formResponse";
+    const C = {"nombre": "entry.1104161098", "mail": "entry.1118946929", "origen": "entry.1753143682", "destino": "entry.1063469825", "desde": "entry.991990980", "hasta": "entry.556212042", "dias": "entry.573026772", "escalas": "entry.1066561259", "precio": "entry.571419025", "equipaje": "entry.2031461130", "visa": "entry.273587639", "resumen": "entry.118961966"};
+    const f = document.getElementById('form-viaje');
+    const err = document.getElementById('error');
+    const hoy = new Date(); hoy.setDate(hoy.getDate() + 1);
+    const iso = d => d.toISOString().slice(0, 10);
+    f.desde.min = f.hasta.min = iso(hoy);
+    f.desde.addEventListener('change', () => {
+      f.hasta.min = f.desde.value;
+      if (!f.hasta.value || f.hasta.value < f.desde.value) {
+        const h = new Date(f.desde.value); h.setDate(h.getDate() + 7); f.hasta.value = iso(h);
+      }
+    });
+    ['origen', 'destino'].forEach(n => f[n].addEventListener('change', () => {
+      const otro = f[n + '_otro']; otro.hidden = f[n].value !== 'otro'; if (!otro.hidden) otro.focus();
+    }));
+    document.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => {
+      f[b.parentElement.dataset.para].value = b.dataset.valor;
+    }));
+    function lugar(n) { return f[n].value === 'otro' ? f[n + '_otro'].value.trim() : f[n].value; }
+    function mal(msg, campo) { err.textContent = '⚠️ ' + msg; err.hidden = false; if (campo) campo.focus(); return false; }
+    function validar() {
+      err.hidden = true;
+      if (!lugar('origen')) return mal('Elegí desde dónde salís.', f.origen);
+      if (!lugar('destino')) return mal('Elegí a dónde querés ir.', f.destino);
+      if (lugar('origen') === lugar('destino')) return mal('El origen y el destino son iguales.', f.destino);
+      if (!f.desde.value || !f.hasta.value) return mal('Completá las dos fechas de salida.', f.desde);
+      if (f.hasta.value < f.desde.value) return mal('La segunda fecha tiene que ser después de la primera.', f.hasta);
+      const d = +f.dias.value; if (!(d >= 1 && d <= 330)) return mal('Poné cuántos días te vas (un número).', f.dias);
+      const p = +f.precio.value; if (!(p >= 50)) return mal('Poné cuánto querés pagar, en dólares (ej: 1200).', f.precio);
+      if (!f.nombre.value.trim()) return mal('Poné tu nombre.', f.nombre);
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.mail.value.trim())) return mal('Revisá tu mail, parece que está mal escrito.', f.mail);
+      return true;
+    }
+    f.addEventListener('submit', async ev => {
+      ev.preventDefault();
+      if (!validar()) return;
+      const datos = new FormData();
+      const valores = {
+        nombre: f.nombre.value.trim(), mail: f.mail.value.trim(),
+        origen: lugar('origen'), destino: lugar('destino'),
+        desde: f.desde.value, hasta: f.hasta.value, dias: f.dias.value,
+        escalas: f.escalas.value, precio: f.precio.value, equipaje: f.equipaje.value,
+        visa: f.visa.value, resumen: f.resumen.checked ? 'Sí' : 'No'
+      };
+      for (const k in valores) if (C[k]) datos.append(C[k], valores[k]);
+      const boton = f.querySelector('button[type=submit]');
+      boton.disabled = true; boton.textContent = 'Enviando…';
+      try {
+        await fetch(ENVIO, { method: 'POST', mode: 'no-cors', body: datos });
+        f.hidden = true; document.getElementById('listo').hidden = false;
+        document.getElementById('sumar').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        boton.disabled = false; boton.textContent = 'Avisame cuando baje ✈️';
+        mal('No se pudo enviar. Revisá tu conexión a internet y probá de nuevo.');
+      }
+    });
+  })();
+  </script>
 
   <h2>Los viajes que estamos vigilando</h2>
   <p class="sub">Último precio encontrado: todavía no hay precios (hora de Argentina).</p>
