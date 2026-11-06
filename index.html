@@ -152,6 +152,10 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
           <label><input type="radio" name="escalas" value="1"><span>Hasta 1 escala</span></label>
           <label><input type="radio" name="escalas" value="2" checked><span>Hasta 2 <small>(más barato)</small></span></label>
         </div>
+        <label class="check" id="escalas-fijas" hidden><input type="checkbox" name="escalas_fijas" checked>
+          Respetar sí o sí esta cantidad de escalas</label>
+        <p class="ayuda" id="escalas-ayuda" hidden>Si lo desmarcás, igual solo te avisamos ofertas con las escalas que
+          elegiste, pero en los mails te contamos si hay algo más barato con más escalas.</p>
       </fieldset>
 
       <fieldset><legend>¿Qué equipaje llevás?</legend>
@@ -181,7 +185,15 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
         <label>Tu mail <small>(no se muestra nunca)</small>
           <input type="email" name="mail" required autocomplete="email" placeholder="nombre@gmail.com"></label>
       </div>
-      <label class="check"><input type="checkbox" name="resumen" checked> Mandame también un resumen por mail todos los días</label>
+      <label>¿Cada cuánto querés que te mandemos el mejor precio que encontramos?
+        <select name="resumen">
+          <option value="Todos los días">Todos los días</option>
+          <option value="Cada semana">Cada semana</option>
+          <option value="Cada 2 semanas" selected>Cada 2 semanas</option>
+          <option value="Nunca">Nunca: solo cuando llegue a mi precio</option>
+        </select></label>
+      <p class="ayuda">Te llega aunque todavía no haya aparecido tu precio, con el link para verlo. Cuando aparezca un
+        vuelo a tu precio, te avisamos en el momento, sin esperar.</p>
 
       <p class="error" id="error" hidden></p>
       <button type="submit" class="boton grande">Avisame cuando baje ✈️</button>
@@ -216,6 +228,10 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     document.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => {
       f[b.parentElement.dataset.para].value = b.dataset.valor;
     }));
+    const fijas = document.getElementById('escalas-fijas'), fijasAyuda = document.getElementById('escalas-ayuda');
+    f.querySelectorAll('input[name=escalas]').forEach(r => r.addEventListener('change', () => {
+      fijas.hidden = fijasAyuda.hidden = f.escalas.value === '2';
+    }));
     function lugar(n) { return f[n].value === 'otro' ? f[n + '_otro'].value.trim() : f[n].value; }
     function mal(msg, campo) { err.textContent = '⚠️ ' + msg; err.hidden = false; if (campo) campo.focus(); return false; }
     function validar() {
@@ -239,8 +255,9 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
         nombre: f.nombre.value.trim(), mail: f.mail.value.trim(),
         origen: lugar('origen'), destino: lugar('destino'),
         desde: f.desde.value, hasta: f.hasta.value, dias: f.dias.value,
-        escalas: f.escalas.value, precio: f.precio.value, equipaje: f.equipaje.value,
-        visa: f.visa.value, resumen: f.resumen.checked ? 'Sí' : 'No'
+        escalas: f.escalas.value + (f.escalas.value !== '2' && !f.escalas_fijas.checked ? ' (flexible)' : ''),
+        precio: f.precio.value, equipaje: f.equipaje.value,
+        visa: f.visa.value, resumen: f.resumen.value
       };
       for (const k in valores) if (C[k]) datos.append(C[k], valores[k]);
       const boton = f.querySelector('button[type=submit]');
@@ -263,6 +280,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     <header><h3>Viaje de Fabri</h3><span class="ruta">Buenos Aires → Tokio</span></header>
     <p class="detalle">Sale entre el 01/02/2028 y el 29/02/2028 · se queda 28 días · hasta 2 escalas · Mochila + valija de mano + valija grande</p>
     <p class="espera">⏳ Todavía es muy pronto: Google muestra vuelos hasta unos 11 meses antes. Empezamos a buscar solos alrededor del <b>08/03/2027</b>.</p>
+    
   </section>
 
   <h2>Preguntas frecuentes</h2>
