@@ -3,32 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vigilante de vuelos ✈️</title>
-<meta name="description" content="Precios de vuelos que vigila el bot, actualizados solos.">
+<title>Te avisamos cuando baje tu vuelo ✈️</title>
+<meta name="description" content="Elegí tu viaje y te avisamos por mail cuando aparezca un buen precio. Gratis.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
 <style>
-:root { --fondo:#f6f7f9; --tarjeta:#fff; --texto:#1c2430; --suave:#5b6675; --borde:#e3e6eb;
-        --acento:#2563eb; --verde:#15803d; --verde-fondo:#ecfdf3; }
+:root { --fondo:#f4f6fa; --tarjeta:#fff; --texto:#1c2430; --suave:#5b6675; --borde:#dfe3ea;
+        --acento:#2563eb; --acento-suave:#e8efff; --verde:#15803d; --verde-fondo:#ecfdf3; --rojo:#b42318; }
 @media (prefers-color-scheme: dark) {
   :root { --fondo:#0f141b; --tarjeta:#171e27; --texto:#e7ebf0; --suave:#9aa5b4; --borde:#2a3441;
-          --acento:#60a5fa; --verde:#4ade80; --verde-fondo:#0f2a1c; } }
+          --acento:#60a5fa; --acento-suave:#172a45; --verde:#4ade80; --verde-fondo:#0f2a1c; --rojo:#f97066; } }
 * { box-sizing:border-box; }
-body { margin:0; font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+html { scroll-behavior:smooth; }
+body { margin:0; font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
        background:var(--fondo); color:var(--texto); }
-main { max-width:860px; margin:0 auto; padding:24px 16px 48px; }
-.cabecera { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-bottom:8px; }
-h1 { margin:0; font-size:1.6rem; }
-.sub { color:var(--suave); margin:4px 0 20px; }
-.boton { background:var(--acento); color:#fff; text-decoration:none; padding:10px 16px; border-radius:10px; font-weight:600; }
-.tarjeta { background:var(--tarjeta); border:1px solid var(--borde); border-radius:14px; padding:18px; margin:16px 0; }
+main { max-width:860px; margin:0 auto; padding:0 16px 48px; }
+.portada { text-align:center; padding:40px 8px 24px; }
+.portada h1 { font-size:clamp(1.7rem,5vw,2.4rem); line-height:1.2; margin:0 0 12px; }
+.portada p { color:var(--suave); max-width:620px; margin:0 auto 22px; }
+h2 { font-size:1.5rem; margin:36px 0 6px; }
+h3 { margin:0; font-size:1.2rem; }
+.sub { color:var(--suave); margin:0 0 16px; }
+.boton { display:inline-block; border:0; cursor:pointer; background:var(--acento); color:#fff; text-decoration:none;
+         padding:12px 20px; border-radius:12px; font:inherit; font-weight:700; }
+.boton.grande { width:100%; padding:16px; font-size:1.15rem; margin-top:8px; }
+.boton:disabled { opacity:.6; cursor:wait; }
+.pasos { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+.paso { background:var(--tarjeta); border:1px solid var(--borde); border-radius:14px; padding:16px; }
+.paso .n { display:inline-grid; place-items:center; width:30px; height:30px; border-radius:50%;
+           background:var(--acento); color:#fff; font-weight:800; margin-right:6px; }
+.paso p { margin:8px 0 0; color:var(--suave); font-size:.95rem; }
+.buscador, .tarjeta { background:var(--tarjeta); border:1px solid var(--borde); border-radius:16px; padding:20px; margin:16px 0; }
+.buscador h2 { margin-top:0; }
+form label { display:block; font-weight:600; margin:14px 0 4px; }
+form small, .ayuda { color:var(--suave); font-weight:400; }
+.ayuda { font-size:.9rem; margin:4px 0 0; }
+.centro { text-align:center; }
+input, select { width:100%; font:inherit; color:var(--texto); background:var(--fondo); border:1.5px solid var(--borde);
+                border-radius:10px; padding:11px 12px; margin-top:6px; }
+input:focus, select:focus { outline:3px solid var(--acento-suave); border-color:var(--acento); }
+.fila { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:0 14px; }
+.chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.chips button { font:inherit; font-size:.9rem; border:1.5px solid var(--borde); background:var(--tarjeta); color:var(--texto);
+                border-radius:99px; padding:6px 12px; cursor:pointer; }
+.chips button:hover { border-color:var(--acento); }
+fieldset { border:0; padding:0; margin:18px 0 0; }
+legend { font-weight:600; padding:0; }
+.segmentado { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-top:8px; }
+.segmentado label, .opcion { margin:0; cursor:pointer; }
+.segmentado input, .opcion input { position:absolute; opacity:0; width:1px; height:1px; }
+.segmentado span { display:block; text-align:center; padding:11px 8px; border:1.5px solid var(--borde); border-radius:10px; font-weight:600; }
+.segmentado small { display:block; }
+.opciones { display:grid; gap:8px; margin-top:8px; }
+.opcion span { display:block; padding:12px 14px; border:1.5px solid var(--borde); border-radius:12px; }
+.opcion small { display:block; }
+.segmentado input:checked + span, .opcion input:checked + span { border-color:var(--acento); background:var(--acento-suave); }
+.segmentado input:focus-visible + span, .opcion input:focus-visible + span { outline:3px solid var(--acento-suave); }
+.con-prefijo { display:flex; align-items:center; gap:8px; }
+.con-prefijo span { font-weight:700; margin-top:6px; }
+.check { display:flex !important; gap:10px; align-items:center; font-weight:400 !important; }
+.check input { width:auto; margin:0; transform:scale(1.3); }
+.error { color:var(--rojo); font-weight:600; background:var(--fondo); padding:10px 12px; border-radius:10px; }
+.listo { text-align:center; padding:20px 4px; }
+.listo .emoji { font-size:3rem; }
+.listo p { color:var(--suave); }
 .tarjeta.oferta { border-color:var(--verde); box-shadow:0 0 0 2px var(--verde-fondo); }
 .tarjeta header { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; }
-h2 { margin:0; font-size:1.25rem; }
-.ruta { font-weight:600; color:var(--acento); }
-.detalle, .progreso { color:var(--suave); font-size:.9rem; margin:6px 0; }
+.ruta { font-weight:700; color:var(--acento); }
+.detalle, .progreso { color:var(--suave); font-size:.92rem; margin:6px 0; }
 .espera { background:var(--fondo); border-radius:10px; padding:12px; margin:12px 0 0; }
 .destacado { display:flex; gap:16px; align-items:center; margin:14px 0; }
-.precio { font-size:2rem; font-weight:800; white-space:nowrap; }
+.precio { font-size:2rem; font-weight:800; white-space:nowrap; line-height:1.1; }
 .oferta .precio { color:var(--verde); }
 .grafico { margin:8px 0; }
 .grafico figcaption { font-size:.85rem; color:var(--suave); }
@@ -45,27 +89,51 @@ th { color:var(--suave); font-weight:600; font-size:.8rem; }
 td.num { white-space:nowrap; }
 small { color:var(--suave); }
 a { color:var(--acento); }
+details { background:var(--tarjeta); border:1px solid var(--borde); border-radius:12px; padding:12px 16px; margin:8px 0; }
+summary { cursor:pointer; font-weight:600; }
+details p { color:var(--suave); margin:8px 0 2px; }
 footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
 </style>
 </head>
 <body>
 <main>
-  <div class="cabecera">
-    <h1>✈️ Vigilante de vuelos</h1>
-    
-  </div>
-  <p class="sub">Último precio encontrado: todavía sin precios (hora de Argentina).
-    El bot revisa de a una fecha por vez, varias veces por día.</p>
-  
-  <section class="tarjeta">
-    <header><h2>Fabri</h2><span class="ruta">EZE → NRT,HND</span></header>
-    <p class="detalle">Salida entre el 01/02/2028 y el 29/02/2028 · 28 días de viaje · hasta 2 escalas · con valija de mano · sin escalas que pidan visa · avisa desde USD 1650</p>
-    <p class="espera">⏳ Google Flights todavía no muestra estas fechas. Empieza a buscar alrededor del <b>08/03/2027</b>.</p>
+  <section class="portada">
+    <h1>✈️ Te avisamos cuando baje el precio de tu viaje</h1>
+    <p>Elegís a dónde querés ir y en qué fechas. Un robot revisa Google Flights varias veces por día
+       y te manda un mail cuando aparece un buen precio. Gratis, sin crear cuentas ni instalar nada.</p>
+    <a class="boton" href="#sumar">Quiero sumar mi viaje ↓</a>
   </section>
+
+  <h2>¿Cómo funciona?</h2>
+  <div class="pasos">
+    <div class="paso"><span class="n">1</span><b>Cargás tu viaje</b>
+      <p>Abajo elegís a dónde, cuándo, qué equipaje llevás y cuánto querés pagar. Solo te pedimos nombre y mail.</p></div>
+    <div class="paso"><span class="n">2</span><b>Fabri lo activa</b>
+      <p>Te llega un mail de bienvenida cuando empezamos a buscar (puede tardar un día).</p></div>
+    <div class="paso"><span class="n">3</span><b>Te avisamos</b>
+      <p>Cuando aparece un vuelo al precio que pusiste o menos, te llega un mail con todo. Vos decidís si comprás.</p></div>
+  </div>
+
+  
+  <section class="buscador" id="sumar">
+    <h2>Sumá tu viaje</h2>
+    <p class="espera">🛠️ Muy pronto vas a poder cargar tu viaje acá mismo.</p>
+  </section>
+
+  <h2>Los viajes que estamos vigilando</h2>
+  <p class="sub">Último precio encontrado: todavía no hay precios (hora de Argentina).</p>
+  <section class="tarjeta">
+    <header><h3>Viaje de Fabri</h3><span class="ruta">Buenos Aires → Tokio</span></header>
+    <p class="detalle">Sale entre el 01/02/2028 y el 29/02/2028 · se queda 28 días · hasta 2 escalas · Mochila + valija de mano + valija grande</p>
+    <p class="espera">⏳ Todavía es muy pronto: Google muestra vuelos hasta unos 11 meses antes. Empezamos a buscar solos alrededor del <b>08/03/2027</b>.</p>
+  </section>
+
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿Cuesta algo?</summary><p>No, es gratis. No tenés que crear ninguna cuenta ni instalar nada.</p></details><details><summary>¿Me compran el pasaje?</summary><p>No. Solo te avisamos por mail cuando aparece un buen precio. Si te gusta, lo comprás vos donde quieras (en la página de la aerolínea o una agencia).</p></details><details><summary>¿Cómo me llega el aviso?</summary><p>Por mail, con la aerolínea, las escalas, los horarios y un link para ver el vuelo en Google. Si no te llega, fijate en Spam o Promociones y marcalo como “No es spam”.</p></details><details><summary>¿Por qué todavía no aparecen precios de mi viaje?</summary><p>Puede ser por dos cosas: (1) Google muestra vuelos hasta unos 11 meses antes; si tu viaje es más lejos, esperamos y empezamos solos. (2) Revisamos de a una fecha por vez, varias veces por día, así que recorrer todas las fechas puede llevar algunos días.</p></details><details><summary>¿Qué incluye el precio?</summary><p>Es el precio total ida y vuelta, para 1 persona, en clase económica, con impuestos. Si elegiste valija de mano, ya está incluida. La valija grande a veces se paga aparte: antes de comprar, fijate en la página de la aerolínea.</p></details><details><summary>¿Qué es una escala?</summary><p>Cuando el avión para en otra ciudad y te tenés que cambiar de avión. Los vuelos con escalas suelen ser más baratos pero más largos.</p></details><details><summary>¿Por qué no me muestran vuelos que pasan por Estados Unidos?</summary><p>Con pasaporte argentino, Estados Unidos y Canadá piden visa incluso para hacer escala. Si no tenés visa, los sacamos para que no te encuentres con ese problema en el aeropuerto.</p></details><details><summary>¿Alguien ve mi mail?</summary><p>No. En esta página solo se ve el nombre que pusiste y tu viaje.</p></details><details><summary>¿Cómo cambio o borro mi viaje?</summary><p>Cargá el viaje de nuevo con los datos nuevos y avisale a Fabri para que borre el anterior.</p></details><details><summary>El precio de Google es distinto al de acá</summary><p>Los precios de los vuelos cambian todo el tiempo, a veces varias veces por día. Acá ves el último precio que encontramos y la hora en que lo vimos.</p></details>
+
   <footer>
-    Precios en USD, ida y vuelta, clase económica, 1 pasajero, impuestos incluidos, según Google Flights.
-    Pueden cambiar en cualquier momento: confirmá siempre en la página de la aerolínea antes de comprar
-    (sobre todo el equipaje despachado). “Ver” abre la búsqueda en Google Flights.
+    Precios en dólares, ida y vuelta, clase económica, 1 pasajero, impuestos incluidos, según Google Flights.
+    Pueden cambiar en cualquier momento: confirmá siempre en la página de la aerolínea antes de comprar.
   </footer>
 </main>
 </body>
