@@ -13,6 +13,7 @@
   :root { --fondo:#0f141b; --tarjeta:#171e27; --texto:#e7ebf0; --suave:#9aa5b4; --borde:#2a3441;
           --acento:#60a5fa; --acento-suave:#172a45; --verde:#4ade80; --verde-fondo:#0f2a1c; --rojo:#f97066; } }
 * { box-sizing:border-box; }
+[hidden] { display:none !important; }
 html { scroll-behavior:smooth; }
 body { margin:0; font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
        background:var(--fondo); color:var(--texto); }
@@ -64,6 +65,7 @@ legend { font-weight:600; padding:0; }
 .con-prefijo span { font-weight:700; margin-top:6px; }
 .check { display:flex !important; gap:10px; align-items:center; font-weight:400 !important; }
 .check input { width:auto; margin:0; transform:scale(1.3); }
+.check[hidden] { display:none !important; }
 .error { color:var(--rojo); font-weight:600; background:var(--fondo); padding:10px 12px; border-radius:10px; }
 .listo { text-align:center; padding:20px 4px; }
 .listo .emoji { font-size:3rem; }
@@ -148,20 +150,22 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       </div>
 
       <div class="fila">
-        <label>Podría salir desde el
-          <input type="date" name="desde" required></label>
-        <label>…hasta el
-          <input type="date" name="hasta" required></label>
+        <label>¿Cuándo te vas? <small>(ida)</small>
+          <input type="date" name="ida" required></label>
+        <label>¿Cuándo volvés? <small>(vuelta)</small>
+          <input type="date" name="vuelta" required></label>
       </div>
-      <p class="ayuda">Mientras más corto sea el rango (1 o 2 semanas), más seguido revisamos cada fecha.</p>
+      <p class="ayuda" id="duracion">Elegí las dos fechas.</p>
 
-      <label>¿Cuántos días te vas?
-        <input type="number" name="dias" min="1" max="330" value="15" required inputmode="numeric"></label>
-      <div class="chips" data-para="dias">
-        <button type="button" data-valor="7">1 semana</button><button type="button" data-valor="10">10 días</button>
-        <button type="button" data-valor="15">15 días</button><button type="button" data-valor="21">3 semanas</button>
-        <button type="button" data-valor="30">1 mes</button>
-      </div>
+      <fieldset><legend>¿Podés mover las fechas?</legend>
+        <div class="segmentado">
+          <label><input type="radio" name="flex" value="0"><span>No <small>(fechas exactas)</small></span></label>
+          <label><input type="radio" name="flex" value="3" checked><span>Unos días <small>(3 antes o después)</small></span></label>
+          <label><input type="radio" name="flex" value="7"><span>Una semana <small>(7 antes o después)</small></span></label>
+        </div>
+        <p class="ayuda" id="flex-ayuda">Mientras más flexible, más chances de encontrar un precio bueno.
+          Siempre buscamos viajes de la misma duración.</p>
+      </fieldset>
 
       <fieldset><legend>Escalas <small>(cuando el avión para en otra ciudad y te cambiás de avión)</small></legend>
         <div class="segmentado">
@@ -247,18 +251,28 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     const err = document.getElementById('error');
     const hoy = new Date(); hoy.setDate(hoy.getDate() + 1);
     const iso = d => d.toISOString().slice(0, 10);
-    f.desde.min = f.hasta.min = iso(hoy);
-    f.desde.addEventListener('change', () => {
-      f.hasta.min = f.desde.value;
-      if (!f.hasta.value || f.hasta.value < f.desde.value) {
-        const h = new Date(f.desde.value); h.setDate(h.getDate() + 7); f.hasta.value = iso(h);
-      }
+    const fecha = s => new Date(s + 'T12:00:00Z');
+    const sumar = (s, n) => { const d = fecha(s); d.setUTCDate(d.getUTCDate() + n); return iso(d); };
+    const ddmm = s => s.slice(8, 10) + '/' + s.slice(5, 7);
+    const dias = () => (f.ida.value && f.vuelta.value) ? Math.round((fecha(f.vuelta.value) - fecha(f.ida.value)) / 864e5) : 0;
+    f.ida.min = f.vuelta.min = iso(hoy);
+    function mostrarDuracion() {
+      const d = dias(), txt = document.getElementById('duracion');
+      if (!f.ida.value || !f.vuelta.value) { txt.textContent = 'Elegí las dos fechas.'; return; }
+      if (d < 1) { txt.textContent = '⚠️ La vuelta tiene que ser después de la ida.'; return; }
+      const fl = +f.flex.value;
+      txt.innerHTML = '✈️ Son <b>' + d + ' días</b> de viaje.' + (fl ? ' Vamos a buscar salidas entre el <b>' +
+        ddmm(sumar(f.ida.value, -fl)) + '</b> y el <b>' + ddmm(sumar(f.ida.value, fl)) + '</b>, siempre de ' + d + ' días.' : '');
+    }
+    f.ida.addEventListener('change', () => {
+      f.vuelta.min = sumar(f.ida.value, 1);
+      if (!f.vuelta.value || f.vuelta.value <= f.ida.value) f.vuelta.value = sumar(f.ida.value, 15);
+      mostrarDuracion();
     });
+    f.vuelta.addEventListener('change', mostrarDuracion);
+    f.querySelectorAll('input[name=flex]').forEach(r => r.addEventListener('change', mostrarDuracion));
     ['origen', 'destino'].forEach(n => f[n].addEventListener('change', () => {
       const otro = f[n + '_otro']; otro.hidden = f[n].value !== 'otro'; if (!otro.hidden) otro.focus();
-    }));
-    document.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => {
-      f[b.parentElement.dataset.para].value = b.dataset.valor;
     }));
     const fijas = document.getElementById('escalas-fijas'), fijasAyuda = document.getElementById('escalas-ayuda');
     f.querySelectorAll('input[name=escalas]').forEach(r => r.addEventListener('change', () => {
@@ -271,9 +285,10 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       if (!lugar('origen')) return mal('Elegí desde dónde salís.', f.origen);
       if (!lugar('destino')) return mal('Elegí a dónde querés ir.', f.destino);
       if (lugar('origen') === lugar('destino')) return mal('El origen y el destino son iguales.', f.destino);
-      if (!f.desde.value || !f.hasta.value) return mal('Completá las dos fechas de salida.', f.desde);
-      if (f.hasta.value < f.desde.value) return mal('La segunda fecha tiene que ser después de la primera.', f.hasta);
-      const d = +f.dias.value; if (!(d >= 1 && d <= 330)) return mal('Poné cuántos días te vas (un número).', f.dias);
+      if (!f.ida.value) return mal('Elegí cuándo te vas.', f.ida);
+      if (!f.vuelta.value) return mal('Elegí cuándo volvés.', f.vuelta);
+      if (dias() < 1) return mal('La vuelta tiene que ser después de la ida.', f.vuelta);
+      if (dias() > 330) return mal('El viaje es muy largo: como máximo 330 días.', f.vuelta);
       const p = +f.precio.value; if (!(p >= 50)) return mal('Poné cuánto querés pagar, en dólares (ej: 1200).', f.precio);
       if (!f.nombre.value.trim()) return mal('Poné tu nombre.', f.nombre);
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.mail.value.trim())) return mal('Revisá tu mail, parece que está mal escrito.', f.mail);
@@ -286,7 +301,9 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       const valores = {
         nombre: f.nombre.value.trim(), mail: f.mail.value.trim(),
         origen: lugar('origen'), destino: lugar('destino'),
-        desde: f.desde.value, hasta: f.hasta.value, dias: f.dias.value,
+        // Para el bot: rango de salida (ida ± flexibilidad, nunca antes de mañana) y duración fija
+        desde: [sumar(f.ida.value, -f.flex.value), iso(hoy)].sort()[1],
+        hasta: sumar(f.ida.value, +f.flex.value), dias: String(dias()),
         escalas: f.escalas.value + (f.escalas.value !== '2' && !f.escalas_fijas.checked ? ' (flexible)' : ''),
         precio: f.precio.value, equipaje: f.equipaje.value,
         visa: f.visa.value, resumen: f.resumen.value
