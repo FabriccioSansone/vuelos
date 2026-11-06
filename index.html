@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vigilante de vuelos ✈️</title>
+<meta name="description" content="Precios de vuelos que vigila el bot, actualizados solos.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+<style>
+:root { --fondo:#f6f7f9; --tarjeta:#fff; --texto:#1c2430; --suave:#5b6675; --borde:#e3e6eb;
+        --acento:#2563eb; --verde:#15803d; --verde-fondo:#ecfdf3; }
+@media (prefers-color-scheme: dark) {
+  :root { --fondo:#0f141b; --tarjeta:#171e27; --texto:#e7ebf0; --suave:#9aa5b4; --borde:#2a3441;
+          --acento:#60a5fa; --verde:#4ade80; --verde-fondo:#0f2a1c; } }
+* { box-sizing:border-box; }
+body { margin:0; font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       background:var(--fondo); color:var(--texto); }
+main { max-width:860px; margin:0 auto; padding:24px 16px 48px; }
+.cabecera { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-bottom:8px; }
+h1 { margin:0; font-size:1.6rem; }
+.sub { color:var(--suave); margin:4px 0 20px; }
+.boton { background:var(--acento); color:#fff; text-decoration:none; padding:10px 16px; border-radius:10px; font-weight:600; }
+.tarjeta { background:var(--tarjeta); border:1px solid var(--borde); border-radius:14px; padding:18px; margin:16px 0; }
+.tarjeta.oferta { border-color:var(--verde); box-shadow:0 0 0 2px var(--verde-fondo); }
+.tarjeta header { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; }
+h2 { margin:0; font-size:1.25rem; }
+.ruta { font-weight:600; color:var(--acento); }
+.detalle, .progreso { color:var(--suave); font-size:.9rem; margin:6px 0; }
+.espera { background:var(--fondo); border-radius:10px; padding:12px; margin:12px 0 0; }
+.destacado { display:flex; gap:16px; align-items:center; margin:14px 0; }
+.precio { font-size:2rem; font-weight:800; white-space:nowrap; }
+.oferta .precio { color:var(--verde); }
+.grafico { margin:8px 0; }
+.grafico figcaption { font-size:.85rem; color:var(--suave); }
+.grafico svg { width:100%; height:auto; }
+.eje { stroke:var(--borde); }
+.linea { fill:none; stroke:var(--acento); stroke-width:2.5; stroke-linejoin:round; }
+.punto { fill:var(--verde); }
+.etiqueta { font-size:12px; fill:var(--verde); font-weight:700; }
+.dia { font-size:11px; fill:var(--suave); }
+.tabla { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; }
+th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--borde); vertical-align:top; }
+th { color:var(--suave); font-weight:600; font-size:.8rem; }
+td.num { white-space:nowrap; }
+small { color:var(--suave); }
+a { color:var(--acento); }
+footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="cabecera">
+    <h1>✈️ Vigilante de vuelos</h1>
+    
+  </div>
+  <p class="sub">Último precio encontrado: todavía sin precios (hora de Argentina).
+    El bot revisa de a una fecha por vez, varias veces por día.</p>
+  
+  <section class="tarjeta">
+    <header><h2>Fabri</h2><span class="ruta">EZE → NRT,HND</span></header>
+    <p class="detalle">Salida entre el 01/02/2028 y el 29/02/2028 · 28 días de viaje · hasta 2 escalas · con valija de mano · sin escalas que pidan visa · avisa desde USD 1650</p>
+    <p class="espera">⏳ Google Flights todavía no muestra estas fechas. Empieza a buscar alrededor del <b>08/03/2027</b>.</p>
+  </section>
+  <footer>
+    Precios en USD, ida y vuelta, clase económica, 1 pasajero, impuestos incluidos, según Google Flights.
+    Pueden cambiar en cualquier momento: confirmá siempre en la página de la aerolínea antes de comprar
+    (sobre todo el equipaje despachado). “Ver” abre la búsqueda en Google Flights.
+  </footer>
+</main>
+</body>
+</html>
