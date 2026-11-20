@@ -207,13 +207,30 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       <label>¿Cuántos viajan? <small>(adultos)</small>
         <select name="pasajeros"><option value="1">1 persona</option><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option><option value="5">5 personas</option><option value="6">6 personas</option></select></label>
 
-      <fieldset><legend>¿Qué equipaje llevás? <small id="equipaje-cada">(cada uno)</small></legend>
+      <fieldset><legend><span id="txt-equipaje">¿Qué equipaje llevás?</span> <small id="equipaje-cada">(cada uno)</small></legend>
         <div class="opciones"><label class="opcion"><input type="radio" name="equipaje" value="Solo mochila">
           <span><b>🎒 Solo mochila</b><small>Un bolso o mochila chica que va debajo del asiento. Siempre está incluida.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija de mano" checked>
           <span><b>🎒🧳 Mochila + valija de mano</b><small>La valija chica (unos 8-10 kg) que va arriba del asiento.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija de mano + valija grande">
           <span><b>🎒🧳🧳 Mochila + valija de mano + valija grande</b><small>La valija grande (unos 23 kg) va en la bodega del avión.</small></span></label><label class="opcion"><input type="radio" name="equipaje" value="Mochila + valija grande">
           <span><b>🎒🧳 Mochila + valija grande</b><small>Sin valija de mano, pero con la valija grande en la bodega.</small></span></label></div>
+        <label class="check"><input type="checkbox" name="distinto">
+          A la vuelta llevo otro equipaje <small>(ej: me voy liviano y vuelvo con valija)</small></label>
       </fieldset>
+      <fieldset id="caja-vuelta" hidden><legend>¿Y a la vuelta?</legend>
+        <div class="opciones"><label class="opcion"><input type="radio" name="equipaje_vuelta" value="Solo mochila">
+          <span><b>🎒 Solo mochila</b><small>Un bolso o mochila chica que va debajo del asiento. Siempre está incluida.</small></span></label><label class="opcion"><input type="radio" name="equipaje_vuelta" value="Mochila + valija de mano">
+          <span><b>🎒🧳 Mochila + valija de mano</b><small>La valija chica (unos 8-10 kg) que va arriba del asiento.</small></span></label><label class="opcion"><input type="radio" name="equipaje_vuelta" value="Mochila + valija de mano + valija grande" checked>
+          <span><b>🎒🧳🧳 Mochila + valija de mano + valija grande</b><small>La valija grande (unos 23 kg) va en la bodega del avión.</small></span></label><label class="opcion"><input type="radio" name="equipaje_vuelta" value="Mochila + valija grande">
+          <span><b>🎒🧳 Mochila + valija grande</b><small>Sin valija de mano, pero con la valija grande en la bodega.</small></span></label></div>
+        <p class="ayuda">Google busca el ida y vuelta con un solo equipaje, así que el precio que te mostramos es con
+          lo que más llevás de valija de mano. Cuando aparezca tu vuelo te explicamos cómo agregar la valija grande
+          solo en el tramo que la necesitás, para no pagarla dos veces.</p>
+      </fieldset>
+
+      <label class="check"><input type="checkbox" name="asiento">
+        <span id="txt-asiento">Quiero elegir mi asiento</span></label>
+      <p class="ayuda">Elegir asiento a veces se paga aparte. Google no lo muestra, así que en el aviso te recordamos
+        revisar si la tarifa lo incluye y cuánto cuesta.</p>
 
       <label>¿Cuánto querés pagar como máximo? <small>(dólares, ida y vuelta, por persona)</small>
         <div class="con-prefijo"><span>USD</span><input type="number" name="precio" min="50" step="10" required inputmode="numeric" placeholder="ej: 1200"></div></label>
@@ -341,8 +358,14 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     [f.mes_desde, f.mes_hasta].forEach(s => s.addEventListener('change', mostrarModo));
     f.pasajeros.addEventListener('change', () => {
       document.getElementById('equipaje-cada').hidden = f.pasajeros.value === '1';
+      document.getElementById('txt-asiento').textContent = f.pasajeros.value === '1'
+        ? 'Quiero elegir mi asiento' : 'Queremos elegir asiento (y sentarnos juntos)';
     });
     document.getElementById('equipaje-cada').hidden = true;
+    f.distinto.addEventListener('change', () => {
+      document.getElementById('caja-vuelta').hidden = !f.distinto.checked;
+      document.getElementById('txt-equipaje').textContent = f.distinto.checked ? '¿Qué equipaje llevás a la ida?' : '¿Qué equipaje llevás?';
+    });
     f.ida.addEventListener('change', () => {
       f.vuelta.min = sumar(f.ida.value, 1);
       if (!f.vuelta.value || f.vuelta.value <= f.ida.value) f.vuelta.value = sumar(f.ida.value, 15);
@@ -394,7 +417,10 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
         dias: modo() === 'fechas' ? String(dias()) : String(+f.dias_mes.value),
         escalas: f.escalas.value + (f.escalas.value !== '2' && !f.escalas_fijas.checked ? ' (flexible)' : ''),
         precio: f.precio.value,
-        equipaje: f.equipaje.value + (f.pasajeros.value !== '1' ? ' | ' + f.pasajeros.value + ' pasajeros' : ''),
+        equipaje: (f.distinto.checked && f.equipaje.value !== f.equipaje_vuelta.value
+                   ? 'Ida: ' + f.equipaje.value + ' · Vuelta: ' + f.equipaje_vuelta.value : f.equipaje.value)
+          + (f.pasajeros.value !== '1' ? ' | ' + f.pasajeros.value + ' pasajeros' : '')
+          + (f.asiento.checked ? ' | elegir asiento' : ''),
         visa: f.visa.value, resumen: f.resumen.value
       };
       for (const k in valores) if (C[k]) datos.append(C[k], valores[k]);
@@ -413,7 +439,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </script>
 
   <h2>Los viajes que estamos vigilando</h2>
-  <p class="sub">Último precio encontrado: 20/11/2026 a las 14:51 (hora de Argentina).</p>
+  <p class="sub">Último precio encontrado: 20/11/2026 a las 18:38 (hora de Argentina).</p>
   <section class="tarjeta">
     <header><h3>Viaje de Fabri</h3><span class="ruta">Buenos Aires → Tokio</span></header>
     <p class="detalle">Sale entre el 01/02/2028 y el 29/02/2028 · se queda 28 días · hasta 2 escalas · Mochila + valija de mano + valija grande</p>
@@ -436,7 +462,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       <figcaption>Cómo fue cambiando el precio más barato</figcaption>
       <svg viewBox="0 0 600 160" role="img" aria-label="Evolución del precio más barato">
         <line x1="34" y1="136" x2="566" y2="136" class="eje"/>
-        <polyline points="34.0,123.5 72.0,64.0 110.0,51.1 148.0,34.0 186.0,129.6 224.0,60.5 262.0,61.3 300.0,49.9 338.0,53.3 376.0,114.8 414.0,61.7 452.0,65.9 490.0,64.0 528.0,136.0 566.0,70.0" class="linea"/>
+        <polyline points="34.0,123.5 72.0,64.0 110.0,51.1 148.0,34.0 186.0,129.6 224.0,60.5 262.0,61.3 300.0,49.9 338.0,53.3 376.0,114.8 414.0,61.7 452.0,65.9 490.0,64.0 528.0,136.0 566.0,76.5" class="linea"/>
         <circle cx="528.0" cy="136.0" r="4" class="punto"/>
         <text x="528.0" y="127.0" text-anchor="middle" class="etiqueta">USD 585</text>
         <text x="34" y="154" class="dia">06/11</text>
@@ -458,7 +484,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
         </tr>
         <tr>
           <td class="num">01/01 → 10/01<br><small>🇦🇷 Año Nuevo</small></td>
-          <td class="num"><b>USD 641</b></td>
+          <td class="num"><b>USD 742</b></td>
           <td>British Airways<br><small>directo a la ida</small></td>
           
           
@@ -584,7 +610,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </section>
 
   <h2>Preguntas frecuentes</h2>
-  <details><summary>¿Cuesta algo?</summary><p>No, es gratis. No tenés que crear ninguna cuenta ni instalar nada.</p></details><details><summary>¿Me compran el pasaje?</summary><p>No. Solo te avisamos por mail cuando aparece un buen precio. Si te gusta, lo comprás vos donde quieras (en la página de la aerolínea o una agencia).</p></details><details><summary>¿Cómo me llega el aviso?</summary><p>Por mail, con la aerolínea, las escalas, los horarios y un link para ver el vuelo en Google. Si no te llega, fijate en Spam o Promociones y marcalo como “No es spam”.</p></details><details><summary>¿Por qué todavía no aparecen precios de mi viaje?</summary><p>Puede ser por dos cosas: (1) Google muestra vuelos hasta unos 11 meses antes; si tu viaje es más lejos, esperamos y empezamos solos. (2) Revisamos de a una fecha por vez, varias veces por día, así que recorrer todas las fechas puede llevar algunos días.</p></details><details><summary>¿Puedo buscar por mes o por feriado?</summary><p>Sí. En “¿Cuándo querés viajar?” elegí “En un mes” y probamos todos los días de salida de ese mes, o “No sé cuándo” y te contamos cuál es el mes más barato. Si tenés fechas, podés elegir un fin de semana largo de la lista y se completan solas. Los feriados se calculan con la ley; los “puentes” que agrega el gobierno cada año no aparecen.</p></details><details><summary>¿Qué incluye el precio?</summary><p>Es el precio ida y vuelta por persona (si viajan varios, también te decimos el total), en clase económica, con impuestos. Si elegiste valija de mano, ya está incluida. La valija grande a veces se paga aparte: antes de comprar, fijate en la página de la aerolínea.</p></details><details><summary>¿Qué es una escala?</summary><p>Cuando el avión para en otra ciudad y te tenés que cambiar de avión. Los vuelos con escalas suelen ser más baratos pero más largos.</p></details><details><summary>¿Por qué no me muestran vuelos que pasan por Estados Unidos?</summary><p>Con pasaporte argentino, Estados Unidos y Canadá piden visa incluso para hacer escala. Si no tenés visa, los sacamos para que no te encuentres con ese problema en el aeropuerto.</p></details><details><summary>¿Alguien ve mi mail?</summary><p>No. En esta página solo se ve el nombre que pusiste y tu viaje.</p></details><details><summary>¿Cómo borro o cambio mi viaje?</summary><p>Al final de cada mail que te mandamos hay un link que dice “Dalo de baja acá”. Tocalo y confirmá: dejamos de buscar y de escribirte. Si querés cambiar algo (fechas, precio, destino), dalo de baja y cargalo de nuevo con los datos nuevos.</p></details><details><summary>El precio de Google es distinto al de acá</summary><p>Los precios de los vuelos cambian todo el tiempo, a veces varias veces por día. Acá ves el último precio que encontramos y la hora en que lo vimos.</p></details>
+  <details><summary>¿Cuesta algo?</summary><p>No, es gratis. No tenés que crear ninguna cuenta ni instalar nada.</p></details><details><summary>¿Me compran el pasaje?</summary><p>No. Solo te avisamos por mail cuando aparece un buen precio. Si te gusta, lo comprás vos donde quieras (en la página de la aerolínea o una agencia).</p></details><details><summary>¿Cómo me llega el aviso?</summary><p>Por mail, con la aerolínea, las escalas, los horarios y un link para ver el vuelo en Google. Si no te llega, fijate en Spam o Promociones y marcalo como “No es spam”.</p></details><details><summary>¿Por qué todavía no aparecen precios de mi viaje?</summary><p>Puede ser por dos cosas: (1) Google muestra vuelos hasta unos 11 meses antes; si tu viaje es más lejos, esperamos y empezamos solos. (2) Revisamos de a una fecha por vez, varias veces por día, así que recorrer todas las fechas puede llevar algunos días.</p></details><details><summary>¿Puedo buscar por mes o por feriado?</summary><p>Sí. En “¿Cuándo querés viajar?” elegí “En un mes” y probamos todos los días de salida de ese mes, o “No sé cuándo” y te contamos cuál es el mes más barato. Si tenés fechas, podés elegir un fin de semana largo de la lista y se completan solas. Los feriados se calculan con la ley; los “puentes” que agrega el gobierno cada año no aparecen.</p></details><details><summary>¿Puedo llevar valija solo a la vuelta? ¿Y elegir asiento?</summary><p>Sí, marcalo al cargar tu viaje. Google Flights busca el ida y vuelta con un solo equipaje y no muestra el precio del asiento, así que el precio que ves es el del pasaje. En el aviso te explicamos cómo agregar la valija grande solo en el tramo que la necesitás (desde la web de la aerolínea, que sale más barato que en el aeropuerto) y te recordamos revisar si la tarifa incluye elegir asiento.</p></details><details><summary>¿Qué incluye el precio?</summary><p>Es el precio ida y vuelta por persona (si viajan varios, también te decimos el total), en clase económica, con impuestos. Si elegiste valija de mano, ya está incluida. La valija grande a veces se paga aparte: antes de comprar, fijate en la página de la aerolínea.</p></details><details><summary>¿Qué es una escala?</summary><p>Cuando el avión para en otra ciudad y te tenés que cambiar de avión. Los vuelos con escalas suelen ser más baratos pero más largos.</p></details><details><summary>¿Por qué no me muestran vuelos que pasan por Estados Unidos?</summary><p>Con pasaporte argentino, Estados Unidos y Canadá piden visa incluso para hacer escala. Si no tenés visa, los sacamos para que no te encuentres con ese problema en el aeropuerto.</p></details><details><summary>¿Alguien ve mi mail?</summary><p>No. En esta página solo se ve el nombre que pusiste y tu viaje.</p></details><details><summary>¿Cómo borro o cambio mi viaje?</summary><p>Al final de cada mail que te mandamos hay un link que dice “Dalo de baja acá”. Tocalo y confirmá: dejamos de buscar y de escribirte. Si querés cambiar algo (fechas, precio, destino), dalo de baja y cargalo de nuevo con los datos nuevos.</p></details><details><summary>El precio de Google es distinto al de acá</summary><p>Los precios de los vuelos cambian todo el tiempo, a veces varias veces por día. Acá ves el último precio que encontramos y la hora en que lo vimos.</p></details>
 
   <footer>
     Precios en dólares, ida y vuelta, por persona, clase económica, impuestos incluidos, según Google Flights.
