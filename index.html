@@ -261,7 +261,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     const ENVIO = "https://docs.google.com/forms/d/e/1FAIpQLSdFwOT9AW2EPzU9_yauluD4TgGjDThLZ9smQIUkgV6__ZzRXQ/formResponse";
     const C = {"nombre": "entry.1104161098", "mail": "entry.1118946929", "origen": "entry.1753143682", "destino": "entry.1063469825", "desde": "entry.991990980", "hasta": "entry.556212042", "dias": "entry.573026772", "escalas": "entry.1066561259", "precio": "entry.571419025", "equipaje": "entry.2031461130", "visa": "entry.273587639", "resumen": "entry.118961966"};
     const LARGOS = [{"inicio": "2026-11-21", "fin": "2026-11-23", "dias": 3, "nombre": "Día de la Soberanía Nacional"}, {"inicio": "2026-12-25", "fin": "2026-12-27", "dias": 3, "nombre": "Navidad"}, {"inicio": "2027-01-01", "fin": "2027-01-03", "dias": 3, "nombre": "Año Nuevo"}, {"inicio": "2027-02-06", "fin": "2027-02-09", "dias": 4, "nombre": "Carnaval"}, {"inicio": "2027-03-26", "fin": "2027-03-28", "dias": 3, "nombre": "Viernes Santo"}, {"inicio": "2027-04-02", "fin": "2027-04-04", "dias": 3, "nombre": "Malvinas"}, {"inicio": "2027-06-19", "fin": "2027-06-21", "dias": 3, "nombre": "Día de la Bandera y Paso a la Inmortalidad de Güemes"}, {"inicio": "2027-07-09", "fin": "2027-07-11", "dias": 3, "nombre": "Día de la Independencia"}, {"inicio": "2027-08-14", "fin": "2027-08-16", "dias": 3, "nombre": "Paso a la Inmortalidad de San Martín"}, {"inicio": "2027-10-09", "fin": "2027-10-11", "dias": 3, "nombre": "Día de la Diversidad Cultural"}];
-    const FERIADOS = [["2026-11-23", "Día de la Soberanía Nacional"], ["2026-12-08", "Inmaculada Concepción"], ["2026-12-25", "Navidad"], ["2027-01-01", "Año Nuevo"], ["2027-02-08", "Carnaval"], ["2027-02-09", "Carnaval"], ["2027-03-24", "Día de la Memoria"], ["2027-03-26", "Viernes Santo"], ["2027-04-02", "Malvinas"], ["2027-05-01", "Día del Trabajador"], ["2027-05-25", "Revolución de Mayo"], ["2027-06-20", "Día de la Bandera"], ["2027-06-21", "Paso a la Inmortalidad de Güemes"], ["2027-07-09", "Día de la Independencia"], ["2027-08-16", "Paso a la Inmortalidad de San Martín"], ["2027-10-11", "Día de la Diversidad Cultural"], ["2027-11-20", "Día de la Soberanía Nacional"], ["2027-12-08", "Inmaculada Concepción"]];
+    const FERIADOS = [["2026-11-23", "Día de la Soberanía Nacional"], ["2026-12-08", "Inmaculada Concepción"], ["2026-12-25", "Navidad"], ["2027-01-01", "Año Nuevo"], ["2027-02-08", "Carnaval"], ["2027-02-09", "Carnaval"], ["2027-03-24", "Día de la Memoria"], ["2027-03-26", "Viernes Santo"], ["2027-04-02", "Malvinas"], ["2027-05-01", "Día del Trabajador"], ["2027-05-25", "Revolución de Mayo"], ["2027-06-20", "Día de la Bandera"], ["2027-06-21", "Paso a la Inmortalidad de Güemes"], ["2027-07-09", "Día de la Independencia"], ["2027-08-16", "Paso a la Inmortalidad de San Martín"], ["2027-10-11", "Día de la Diversidad Cultural"], ["2027-11-20", "Día de la Soberanía Nacional"], ["2027-12-08", "Inmaculada Concepción"], ["2027-12-25", "Navidad"]];
     const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
     // Dar de baja: el link del mail trae ?baja=CODIGO
     const codigo = new URLSearchParams(location.search).get('baja');
@@ -413,7 +413,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </script>
 
   <h2>Los viajes que estamos vigilando</h2>
-  <p class="sub">Último precio encontrado: 19/11/2026 a las 20:36 (hora de Argentina).</p>
+  <p class="sub">Último precio encontrado: 20/11/2026 a las 05:37 (hora de Argentina).</p>
   <section class="tarjeta">
     <header><h3>Viaje de Fabri</h3><span class="ruta">Buenos Aires → Tokio</span></header>
     <p class="detalle">Sale entre el 01/02/2028 y el 29/02/2028 · se queda 28 días · hasta 2 escalas · Mochila + valija de mano + valija grande</p>
@@ -430,17 +430,17 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
         con Aerolíneas Argentinas (directo a la ida).</div>
     </div>
     
-    <p class="detalle">📆 El mes más barato hasta ahora: <b>enero</b></p><ul class="meses"><li class=""><b>Diciembre 2026</b><span>USD 803</span><small>ida 31/12</small></li><li class="top"><b>Enero 2027</b><span>USD 585</span><small>ida 06/01</small></li></ul>
+    <p class="detalle">📆 El mes más barato hasta ahora: <b>enero</b></p><ul class="meses"><li class=""><b>Diciembre 2026</b><span>USD 759</span><small>ida 31/12</small></li><li class="top"><b>Enero 2027</b><span>USD 585</span><small>ida 06/01</small></li></ul>
     
     <figure class="grafico">
       <figcaption>Cómo fue cambiando el precio más barato</figcaption>
       <svg viewBox="0 0 600 160" role="img" aria-label="Evolución del precio más barato">
         <line x1="34" y1="136" x2="566" y2="136" class="eje"/>
-        <polyline points="34.0,123.5 74.9,64.0 115.8,51.1 156.8,34.0 197.7,129.6 238.6,60.5 279.5,61.3 320.5,49.9 361.4,53.3 402.3,114.8 443.2,61.7 484.2,65.9 525.1,64.0 566.0,136.0" class="linea"/>
-        <circle cx="566.0" cy="136.0" r="4" class="punto"/>
-        <text x="566.0" y="127.0" text-anchor="middle" class="etiqueta">USD 585</text>
+        <polyline points="34.0,123.5 72.0,64.0 110.0,51.1 148.0,34.0 186.0,129.6 224.0,60.5 262.0,61.3 300.0,49.9 338.0,53.3 376.0,114.8 414.0,61.7 452.0,65.9 490.0,64.0 528.0,136.0 566.0,70.0" class="linea"/>
+        <circle cx="528.0" cy="136.0" r="4" class="punto"/>
+        <text x="528.0" y="127.0" text-anchor="middle" class="etiqueta">USD 585</text>
         <text x="34" y="154" class="dia">06/11</text>
-        <text x="566" y="154" text-anchor="end" class="dia">19/11</text>
+        <text x="566" y="154" text-anchor="end" class="dia">20/11</text>
       </svg>
     </figure>
     <div class="tabla">
@@ -465,6 +465,14 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
           <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+GIG+on+2027-01-01+through+2027-01-10+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
         </tr>
         <tr>
+          <td class="num">31/12 → 09/01<br><small>🇦🇷 Año Nuevo</small></td>
+          <td class="num"><b>USD 759</b></td>
+          <td>British Airways<br><small>directo a la ida</small></td>
+          
+          
+          <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+GIG+on+2026-12-31+through+2027-01-09+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
+        </tr>
+        <tr>
           <td class="num">03/01 → 12/01</td>
           <td class="num"><b>USD 770</b></td>
           <td>British Airways<br><small>directo a la ida</small></td>
@@ -487,14 +495,6 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
           
           
           <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+GIG+on+2027-01-02+through+2027-01-11+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
-        </tr>
-        <tr>
-          <td class="num">31/12 → 09/01<br><small>🇦🇷 Año Nuevo</small></td>
-          <td class="num"><b>USD 803</b></td>
-          <td>British Airways<br><small>directo a la ida</small></td>
-          
-          
-          <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+GIG+on+2026-12-31+through+2027-01-09+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
         </tr></tbody>
       </table>
     </div>
@@ -589,7 +589,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   <footer>
     Precios en dólares, ida y vuelta, por persona, clase económica, impuestos incluidos, según Google Flights.
     Pueden cambiar en cualquier momento: confirmá siempre en la página de la aerolínea antes de comprar.
-    <br>El bot revisó por última vez el 19/11/2026.
+    <br>El bot revisó por última vez el 20/11/2026.
   </footer>
 </main>
 </body>
