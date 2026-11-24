@@ -278,7 +278,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     const ENVIO = "https://docs.google.com/forms/d/e/1FAIpQLSdFwOT9AW2EPzU9_yauluD4TgGjDThLZ9smQIUkgV6__ZzRXQ/formResponse";
     const C = {"nombre": "entry.1104161098", "mail": "entry.1118946929", "origen": "entry.1753143682", "destino": "entry.1063469825", "desde": "entry.991990980", "hasta": "entry.556212042", "dias": "entry.573026772", "escalas": "entry.1066561259", "precio": "entry.571419025", "equipaje": "entry.2031461130", "visa": "entry.273587639", "resumen": "entry.118961966"};
     const LARGOS = [{"inicio": "2026-12-25", "fin": "2026-12-27", "dias": 3, "nombre": "Navidad"}, {"inicio": "2027-01-01", "fin": "2027-01-03", "dias": 3, "nombre": "Año Nuevo"}, {"inicio": "2027-02-06", "fin": "2027-02-09", "dias": 4, "nombre": "Carnaval"}, {"inicio": "2027-03-26", "fin": "2027-03-28", "dias": 3, "nombre": "Viernes Santo"}, {"inicio": "2027-04-02", "fin": "2027-04-04", "dias": 3, "nombre": "Malvinas"}, {"inicio": "2027-06-19", "fin": "2027-06-21", "dias": 3, "nombre": "Día de la Bandera y Paso a la Inmortalidad de Güemes"}, {"inicio": "2027-07-09", "fin": "2027-07-11", "dias": 3, "nombre": "Día de la Independencia"}, {"inicio": "2027-08-14", "fin": "2027-08-16", "dias": 3, "nombre": "Paso a la Inmortalidad de San Martín"}, {"inicio": "2027-10-09", "fin": "2027-10-11", "dias": 3, "nombre": "Día de la Diversidad Cultural"}];
-    const FERIADOS = [["2026-11-23", "Día de la Soberanía Nacional"], ["2026-12-08", "Inmaculada Concepción"], ["2026-12-25", "Navidad"], ["2027-01-01", "Año Nuevo"], ["2027-02-08", "Carnaval"], ["2027-02-09", "Carnaval"], ["2027-03-24", "Día de la Memoria"], ["2027-03-26", "Viernes Santo"], ["2027-04-02", "Malvinas"], ["2027-05-01", "Día del Trabajador"], ["2027-05-25", "Revolución de Mayo"], ["2027-06-20", "Día de la Bandera"], ["2027-06-21", "Paso a la Inmortalidad de Güemes"], ["2027-07-09", "Día de la Independencia"], ["2027-08-16", "Paso a la Inmortalidad de San Martín"], ["2027-10-11", "Día de la Diversidad Cultural"], ["2027-11-20", "Día de la Soberanía Nacional"], ["2027-12-08", "Inmaculada Concepción"], ["2027-12-25", "Navidad"]];
+    const FERIADOS = [["2026-12-08", "Inmaculada Concepción"], ["2026-12-25", "Navidad"], ["2027-01-01", "Año Nuevo"], ["2027-02-08", "Carnaval"], ["2027-02-09", "Carnaval"], ["2027-03-24", "Día de la Memoria"], ["2027-03-26", "Viernes Santo"], ["2027-04-02", "Malvinas"], ["2027-05-01", "Día del Trabajador"], ["2027-05-25", "Revolución de Mayo"], ["2027-06-20", "Día de la Bandera"], ["2027-06-21", "Paso a la Inmortalidad de Güemes"], ["2027-07-09", "Día de la Independencia"], ["2027-08-16", "Paso a la Inmortalidad de San Martín"], ["2027-10-11", "Día de la Diversidad Cultural"], ["2027-11-20", "Día de la Soberanía Nacional"], ["2027-12-08", "Inmaculada Concepción"], ["2027-12-25", "Navidad"]];
     const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
     // Dar de baja: el link del mail trae ?baja=CODIGO
     const codigo = new URLSearchParams(location.search).get('baja');
@@ -439,7 +439,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </script>
 
   <h2>Los viajes que estamos vigilando</h2>
-  <p class="sub">Último precio encontrado: 23/11/2026 a las 18:28 (hora de Argentina).</p>
+  <p class="sub">Último precio encontrado: 24/11/2026 a las 07:59 (hora de Argentina).</p>
   <section class="tarjeta">
     <header><h3>Viaje de Fabri</h3><span class="ruta">Buenos Aires → Tokio</span></header>
     <p class="detalle">Sale entre el 01/02/2028 y el 29/02/2028 · se queda 28 días · hasta 2 escalas · Mochila + valija de mano + valija grande</p>
@@ -543,11 +543,11 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       <figcaption>Cómo fue cambiando el precio más barato</figcaption>
       <svg viewBox="0 0 600 160" role="img" aria-label="Evolución del precio más barato">
         <line x1="34" y1="136" x2="566" y2="136" class="eje"/>
-        <polyline points="34.0,111.2 65.3,99.8 96.6,122.6 127.9,88.2 159.2,136.0 190.5,111.2 221.8,73.4 253.1,96.9 284.4,85.5 315.6,99.8 346.9,34.0 378.2,88.4 409.5,134.2 440.8,122.8 472.1,122.8 503.4,71.3 534.7,111.4 566.0,111.4" class="linea"/>
-        <circle cx="159.2" cy="136.0" r="4" class="punto"/>
-        <text x="159.2" y="127.0" text-anchor="middle" class="etiqueta">USD 1417</text>
+        <polyline points="34.0,111.2 63.6,99.8 93.1,122.6 122.7,88.2 152.2,136.0 181.8,111.2 211.3,73.4 240.9,96.9 270.4,85.5 300.0,99.8 329.6,34.0 359.1,88.4 388.7,134.2 418.2,122.8 447.8,122.8 477.3,71.3 506.9,111.4 536.4,111.4 566.0,122.8" class="linea"/>
+        <circle cx="152.2" cy="136.0" r="4" class="punto"/>
+        <text x="152.2" y="127.0" text-anchor="middle" class="etiqueta">USD 1417</text>
         <text x="34" y="154" class="dia">06/11</text>
-        <text x="566" y="154" text-anchor="end" class="dia">23/11</text>
+        <text x="566" y="154" text-anchor="end" class="dia">24/11</text>
       </svg>
     </figure>
     <div class="tabla">
@@ -615,7 +615,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   <footer>
     Precios en dólares, ida y vuelta, por persona, clase económica, impuestos incluidos, según Google Flights.
     Pueden cambiar en cualquier momento: confirmá siempre en la página de la aerolínea antes de comprar.
-    <br>El bot revisó por última vez el 23/11/2026.
+    <br>El bot revisó por última vez el 24/11/2026.
   </footer>
 </main>
 </body>
