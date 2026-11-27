@@ -278,7 +278,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
     const ENVIO = "https://docs.google.com/forms/d/e/1FAIpQLSdFwOT9AW2EPzU9_yauluD4TgGjDThLZ9smQIUkgV6__ZzRXQ/formResponse";
     const C = {"nombre": "entry.1104161098", "mail": "entry.1118946929", "origen": "entry.1753143682", "destino": "entry.1063469825", "desde": "entry.991990980", "hasta": "entry.556212042", "dias": "entry.573026772", "escalas": "entry.1066561259", "precio": "entry.571419025", "equipaje": "entry.2031461130", "visa": "entry.273587639", "resumen": "entry.118961966"};
     const LARGOS = [{"inicio": "2026-12-25", "fin": "2026-12-27", "dias": 3, "nombre": "Navidad"}, {"inicio": "2027-01-01", "fin": "2027-01-03", "dias": 3, "nombre": "Año Nuevo"}, {"inicio": "2027-02-06", "fin": "2027-02-09", "dias": 4, "nombre": "Carnaval"}, {"inicio": "2027-03-26", "fin": "2027-03-28", "dias": 3, "nombre": "Viernes Santo"}, {"inicio": "2027-04-02", "fin": "2027-04-04", "dias": 3, "nombre": "Malvinas"}, {"inicio": "2027-06-19", "fin": "2027-06-21", "dias": 3, "nombre": "Día de la Bandera y Paso a la Inmortalidad de Güemes"}, {"inicio": "2027-07-09", "fin": "2027-07-11", "dias": 3, "nombre": "Día de la Independencia"}, {"inicio": "2027-08-14", "fin": "2027-08-16", "dias": 3, "nombre": "Paso a la Inmortalidad de San Martín"}, {"inicio": "2027-10-09", "fin": "2027-10-11", "dias": 3, "nombre": "Día de la Diversidad Cultural"}];
-    const FERIADOS = [["2026-12-08", "Inmaculada Concepción"], ["2026-12-25", "Navidad"], ["2027-01-01", "Año Nuevo"], ["2027-02-08", "Carnaval"], ["2027-02-09", "Carnaval"], ["2027-03-24", "Día de la Memoria"], ["2027-03-26", "Viernes Santo"], ["2027-04-02", "Malvinas"], ["2027-05-01", "Día del Trabajador"], ["2027-05-25", "Revolución de Mayo"], ["2027-06-20", "Día de la Bandera"], ["2027-06-21", "Paso a la Inmortalidad de Güemes"], ["2027-07-09", "Día de la Independencia"], ["2027-08-16", "Paso a la Inmortalidad de San Martín"], ["2027-10-11", "Día de la Diversidad Cultural"], ["2027-11-20", "Día de la Soberanía Nacional"], ["2027-12-08", "Inmaculada Concepción"], ["2027-12-25", "Navidad"]];
+    const FERIADOS = [["2026-12-08", "Inmaculada Concepción"], ["2026-12-25", "Navidad"], ["2027-01-01", "Año Nuevo"], ["2027-02-08", "Carnaval"], ["2027-02-09", "Carnaval"], ["2027-03-24", "Día de la Memoria"], ["2027-03-26", "Viernes Santo"], ["2027-04-02", "Malvinas"], ["2027-05-01", "Día del Trabajador"], ["2027-05-25", "Revolución de Mayo"], ["2027-06-20", "Día de la Bandera"], ["2027-06-21", "Paso a la Inmortalidad de Güemes"], ["2027-07-09", "Día de la Independencia"], ["2027-08-16", "Paso a la Inmortalidad de San Martín"], ["2027-10-11", "Día de la Diversidad Cultural"], ["2027-11-20", "Día de la Soberanía Nacional"], ["2027-12-08", "Inmaculada Concepción"], ["2027-12-25", "Navidad"], ["2028-01-01", "Año Nuevo"]];
     const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
     // Dar de baja: el link del mail trae ?baja=CODIGO
     const codigo = new URLSearchParams(location.search).get('baja');
@@ -439,7 +439,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   </script>
 
   <h2>Los viajes que estamos vigilando</h2>
-  <p class="sub">Último precio encontrado: 26/11/2026 a las 19:23 (hora de Argentina).</p>
+  <p class="sub">Último precio encontrado: 27/11/2026 a las 06:42 (hora de Argentina).</p>
   <section class="tarjeta">
     <header><h3>Viaje de Fabri</h3><span class="ruta">Buenos Aires → Tokio</span></header>
     <p class="detalle">Sale entre el 01/02/2028 y el 29/02/2028 · se queda 28 días · hasta 2 escalas · Mochila + valija de mano + valija grande</p>
@@ -543,11 +543,11 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
       <figcaption>Cómo fue cambiando el precio más barato</figcaption>
       <svg viewBox="0 0 600 160" role="img" aria-label="Evolución del precio más barato">
         <line x1="34" y1="136" x2="566" y2="136" class="eje"/>
-        <polyline points="34.0,111.2 60.6,99.8 87.2,122.6 113.8,88.2 140.4,136.0 167.0,111.2 193.6,73.4 220.2,96.9 246.8,85.5 273.4,99.8 300.0,34.0 326.6,88.4 353.2,134.2 379.8,122.8 406.4,122.8 433.0,71.3 459.6,111.4 486.2,111.4 512.8,122.8 539.4,122.8 566.0,122.8" class="linea"/>
-        <circle cx="140.4" cy="136.0" r="4" class="punto"/>
-        <text x="140.4" y="127.0" text-anchor="middle" class="etiqueta">USD 1417</text>
+        <polyline points="34.0,111.2 59.3,99.8 84.7,122.6 110.0,88.2 135.3,136.0 160.7,111.2 186.0,73.4 211.3,96.9 236.7,85.5 262.0,99.8 287.3,34.0 312.7,88.4 338.0,134.2 363.3,122.8 388.7,122.8 414.0,71.3 439.3,111.4 464.7,111.4 490.0,122.8 515.3,122.8 540.7,122.8 566.0,85.7" class="linea"/>
+        <circle cx="135.3" cy="136.0" r="4" class="punto"/>
+        <text x="135.3" y="127.0" text-anchor="middle" class="etiqueta">USD 1417</text>
         <text x="34" y="154" class="dia">06/11</text>
-        <text x="566" y="154" text-anchor="end" class="dia">26/11</text>
+        <text x="566" y="154" text-anchor="end" class="dia">27/11</text>
       </svg>
     </figure>
     <div class="tabla">
@@ -596,12 +596,12 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
           <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+FCO+on+2027-05-02+through+2027-06-01+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
         </tr>
         <tr>
-          <td class="num">30/04 → 30/05<br><small>🇦🇷 Día del Trabajador, Revolución de Mayo</small></td>
-          <td class="num"><b>USD 1780</b></td>
+          <td class="num">29/04 → 29/05<br><small>🇦🇷 Día del Trabajador, Revolución de Mayo</small></td>
+          <td class="num"><b>USD 1699</b></td>
           <td>ITA<br><small>directo a la ida</small></td>
           
           
-          <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+FCO+on+2027-04-30+through+2027-05-30+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
+          <td><a href="https://www.google.com/travel/flights?q=Flights+from+EZE+to+FCO+on+2027-04-29+through+2027-05-29+economy&amp;hl=es-419&amp;curr=USD&amp;gl=ar" target="_blank" rel="noopener">Ver en Google</a></td>
         </tr></tbody>
       </table>
     </div>
@@ -615,7 +615,7 @@ footer { color:var(--suave); font-size:.85rem; margin-top:28px; }
   <footer>
     Precios en dólares, ida y vuelta, por persona, clase económica, impuestos incluidos, según Google Flights.
     Pueden cambiar en cualquier momento: confirmá siempre en la página de la aerolínea antes de comprar.
-    <br>El bot revisó por última vez el 26/11/2026.
+    <br>El bot revisó por última vez el 27/11/2026.
   </footer>
 </main>
 </body>
